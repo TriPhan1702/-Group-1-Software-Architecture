@@ -1,0 +1,96 @@
+﻿@model Market.Models.Product
+@{
+    ViewBag.Title = "UpdateProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        height: 500,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor textcolor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table contextmenu paste code help'
+        ],
+        toolbar:
+        'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tinymce.com/css/codepen.min.css'
+        ]
+    });
+</script>
+
+<style>
+    .field-validation-error {
+        color: red
+    }
+</style>
+
+<title>Article Editor</title>
+
+<!--Display Alert-->
+@Html.Raw(TempData["message"])
+
+<div class="container">
+    @using (Html.BeginForm("CheckUpdateProduct", "Product", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <h2>Update Product</h2>
+        <!-- Form contact -->
+
+        <!--Title-->
+        <div class="md-form">
+            <i class="fa fa-file-text-o prefix red-text"></i>
+            @Html.TextBoxFor(m => m.name)
+            @Html.LabelFor(m => m.name)
+            @Html.ValidationMessageFor(m => m.name)
+        </div>
+
+        <!--ShortDescription-->
+        <div class="md-form">
+            <i class="fa fa-envelope prefix green-text"></i>
+            @Html.TextBoxFor(m => m.shortDescription)
+            @Html.LabelFor(m => m.shortDescription)
+            @Html.ValidationMessageFor(m => m.shortDescription)
+        </div>
+
+        <!--Price-->
+        <div class="md-form">
+            <i class="fa fa-dollar prefix yellow-text"></i>
+            @Html.TextBoxFor(m => m.price)
+            @Html.LabelFor(m => m.price)
+            @Html.ValidationMessageFor(m => m.price)
+        </div>
+
+        <!--Thumbnail-->
+        <div class="md-form">
+            <i class="fa fa-file-image-o prefix blue-text" aria-hidden="true"></i>
+            @Html.ValidationMessageFor(m => m.imageURL)
+            @Html.TextBoxFor(m => m.imageURL)
+            @Html.LabelFor(m => m.imageURL)
+        </div>
+
+        <!--Description+textarea-->
+        <div class="md-form">
+            @Html.ValidationMessageFor(m => m.description)
+            @Html.TextAreaFor(m => m.description)
+        </div>
+
+        @Html.HiddenFor(m=>m.id)
+
+        <!--UploadButton-->
+        <div class="text-center">
+            <button class="btn btn-unique">Save<i class="fa fa-paper-plane-o ml-1"></i></button>
+        </div>
+    }
+    <!-- Form contact -->
+</div>
+
+
+

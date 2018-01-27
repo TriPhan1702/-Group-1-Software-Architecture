@@ -1,0 +1,82 @@
+﻿@model Market.ModelView.RegisterAccountViewModel
+@{
+    ViewBag.Title = "RegisterView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body, html {
+        height: 100%;
+    }
+
+    .bg {
+        /* The image used */
+        background-image: url("https://www.walldevil.com/wallpapers/a26/scenery-beach-sea-newyork-wallpaper-grayscale-background-wallpapers.jpg");
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        /* Full height */
+        height: 100%;
+    }
+
+    .field-validation-error {
+        color: red;
+    }
+</style>
+
+<title>Register</title>
+
+<div class="bg row">
+    <div class="col align-middle flex-center">
+        <div class="jumbotron white">
+            @using (Html.BeginForm("CheckRegister", "Account", FormMethod.Post))
+            {
+                <!--Form without header-->
+
+
+            <div class="card-body mx-4">
+
+                <!--Header-->
+                <div class="text-center">
+                    <h3 class="dark-grey-text mb-5">
+                        <strong>Sign in</strong>
+                    </h3>
+                </div>
+
+                <div class="md-form">
+                    <h5 class="red-text">@Html.ValidationMessage("customMess")</h5>
+                </div>
+
+                <!--Body-->
+                <div class="md-form">
+                    @Html.LabelFor(model => model.Username, new { @class = "col-md-2 label " })
+                    @Html.EditorFor(model => model.Username, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Username, null, new { @class = "field-validation-error" })
+                </div>
+
+                <div class="md-form">
+                    @Html.LabelFor(model => model.Password, new { @class = "col-md-2 label " })
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", id = "pass" })
+                    @Html.ValidationMessageFor(model => model.Password, null, new { @class = "field-validation-error" })
+                </div>
+
+                <div class="md-form">
+                    @Html.LabelFor(model => model.ConfirmPassword, new { @class = "col-md-2 label " })
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", id = "pass" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, null, new { @class = "field-validation-error" })
+                </div>
+
+                <div class="text-center mb-3">
+                    <button class="btn blue-gradient btn-block btn-rounded z-depth-1a">Register</button>
+                </div>
+            </div>
+            }
+            
+            <!--Footer-->
+            <div class="modal-footer mx-5 pt-3 mb-1">
+                <p class="font-small grey-text d-flex justify-content-end">Already have an Account? <a href="@Url.Action("Login")" class="blue-text ml-1"> Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5f47f866f47947b6b7d9f4bea03be6f9" Name="Diagram1">
+        <EntityTypeShape EntityType="MarketDBModel.Order" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.Orders_Has_Products" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.PayMethod" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.Product" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.Role" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="MarketDBModel.FK_Orders_Has_Products_Orders1" ManuallyRouted="false" />
+        <AssociationConnector Association="MarketDBModel.FK_Orders_PayMethods" ManuallyRouted="false" />
+        <AssociationConnector Association="MarketDBModel.FK_Orders_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="MarketDBModel.FK_Orders_Has_Products_Products1" ManuallyRouted="false" />
+        <AssociationConnector Association="MarketDBModel.FK_Users_Roles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
