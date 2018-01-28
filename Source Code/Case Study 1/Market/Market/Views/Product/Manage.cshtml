@@ -56,7 +56,11 @@
         {
             <tr>
                 <td>@product.id</td>
-                <td>@product.name</td>
+                <td>
+                    <strong>
+                        <a href="@Url.Action("ProductDetail", "Product", new {productId = product.id})">@product.name</a>
+                    </strong>
+                </td>
                 <td>@product.price$"</td>
                 @if (product.isActive)
                 {

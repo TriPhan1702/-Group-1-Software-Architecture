@@ -1,0 +1,76 @@
+﻿@using Market.ModelView
+@{
+    ViewBag.Title = "ViewCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var cart = Session["cart"] as CartViewModel;
+
+    decimal totalPrice = 0;
+}
+
+<style>
+    .imageCell {
+        width: 10%
+    }
+
+    .closeCell {
+        width: 5%
+    }
+    tr {
+        height: 50px
+    }
+     
+</style>
+
+<div class="container mt-5">
+
+    @if (cart != null && cart.Items.Count > 0)
+    {
+        <table class="table table-bordered w-100">
+            <thead>
+            <tr>
+                <th class="imageCell">Image</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price per Unit</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in cart.Items)
+            {
+                totalPrice += item.Quantity * item.PricePerUnit;
+
+                <tr>
+                    <td class="imageCell"><img class="w-100" src="@item.ImageUrl"/></td>
+                    <td>
+
+                        <strong>
+                            <a href="@Url.Action("ProductDetail", "Product", new {productId = item.ProductId})">@item.Name</a>
+                        </strong>
+                    </td>
+                    <td>@item.Quantity</td>
+                    <td>@item.PricePerUnit.ToString(".##") $</td>
+                    <td><a class="ml-4 red-text" href="@Url.Action("RemoverItemFromCart", new {productId = item.ProductId})"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                </tr>
+            }
+            
+            <tr>
+                <td colspan="2"></td>
+                <td class="font-weight-bold">Sum Money:</td>
+                <td class="font-weight-bold" colspan="2">@totalPrice.ToString(".##") $</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a class="btn btn-danger float-right" href="@Url.Action("Checkout","Order")">Check out</a>
+    }
+    else
+    {
+        <h1 class="text-center align-self-center">Cart is empty</h1>
+    }
+
+</div>
+

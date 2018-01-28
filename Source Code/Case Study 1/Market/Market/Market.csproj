@@ -151,7 +151,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -179,9 +178,6 @@
     <Compile Include="Models\Orders_Has_Products.cs">
       <DependentUpon>MarketEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PayMethod.cs">
-      <DependentUpon>MarketEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Product.cs">
       <DependentUpon>MarketEntities.tt</DependentUpon>
     </Compile>
@@ -192,6 +188,7 @@
       <DependentUpon>MarketEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ModelView\AccountViewModel.cs" />
+    <Compile Include="ModelView\CartViewModel.cs" />
     <Compile Include="ModelView\LoginAccountViewModel.cs" />
     <Compile Include="ModelView\ProductListlViewModel.cs" />
     <Compile Include="ModelView\RegisterAccountViewModel.cs" />
@@ -262,9 +259,11 @@
     <Content Include="Views\Product\Manage.cshtml" />
     <Content Include="Views\Product\AddProduct.cshtml" />
     <Content Include="Views\Product\UpdateProduct.cshtml" />
-    <Content Include="Views\Cart\ViewCart.cshtml" />
     <Content Include="Views\Product\ProductDetail.cshtml" />
     <Content Include="Views\Order\Checkout.cshtml" />
+    <Content Include="Views\Home\ViewCart.cshtml" />
+    <Content Include="Views\Order\Paypal.cshtml" />
+    <Content Include="Views\Order\CreditCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,9 +4,9 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="MarketDBModel.Order">
         <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="securityCode" ColumnName="securityCode" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="userId" ColumnName="userId" />
-          <ScalarProperty Name="payMethodId" ColumnName="payMethodId" />
           <ScalarProperty Name="sumMoney" ColumnName="sumMoney" />
           <ScalarProperty Name="note" ColumnName="note" />
           <ScalarProperty Name="cardHolderName" ColumnName="cardHolderName" />
@@ -27,14 +27,6 @@
           <ScalarProperty Name="productId" ColumnName="productId" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="pricePerUnit" ColumnName="pricePerUnit" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PayMethods">
-      <EntityTypeMapping TypeName="MarketDBModel.PayMethod">
-        <MappingFragment StoreEntitySet="PayMethods">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

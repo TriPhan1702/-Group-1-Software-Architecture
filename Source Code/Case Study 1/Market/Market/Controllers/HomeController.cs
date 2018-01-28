@@ -44,6 +44,60 @@ namespace Market.Controllers
             return View("Index", productListModelView);
         }
 
+        public ActionResult AddProductToCart(int productId, bool toHomePage)
+        {
+            var product = Context.Products.FirstOrDefault(p => p.id == productId);
+
+            if (product == null)
+            {
+                TempData["message"] = "<script>alert('Item not found')</script>";
+            }
+            else
+            {
+                var cart = Session["cart"] as CartViewModel;
+
+                if (cart == null)
+                {
+                    cart = new CartViewModel();
+
+                    cart.AddItemToCart(product);
+                }
+                else
+                {
+                    var item = cart.Items.Find(i => i.ProductId == product.id);
+
+                    if (item == null)
+                    {
+                        cart.AddItemToCart(product);
+                    }
+                    else
+                    {
+                        item.Quantity++;
+                    }
+                }
+
+                Session["cart"] = cart;
+
+                TempData["message"] = "<script>alert('Item Added')</script>";
+            }
+            
+            return toHomePage ? RedirectToAction("Index") : RedirectToAction("ProductDetail", "Product", new {productId = product.id});
+        }
+
+        public ActionResult RemoverItemFromCart(int productId)
+        {
+            var cart = Session["cart"] as CartViewModel;
+
+            cart?.RemoveItemFromCart(productId);
+
+            return RedirectToAction("ViewCart");
+        }
+
+        public ActionResult ViewCart()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

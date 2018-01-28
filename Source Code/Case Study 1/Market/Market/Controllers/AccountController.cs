@@ -18,12 +18,6 @@ namespace Market.Controllers
             Context = new MarketDBEntities();
         }
 
-        // GET: Account
-        public ActionResult Index()
-        {
-            return Content("WIP");
-        }
-
         [HttpGet]
         public ActionResult Login()
         {
@@ -72,7 +66,7 @@ namespace Market.Controllers
                 }
             }
 
-             ModelState.AddModelError("customMess", "Account already existed");
+            ModelState.AddModelError("customMess", "Account already existed");
             return View("Register", accountViewModel);
         }
 
@@ -114,7 +108,7 @@ namespace Market.Controllers
 
         public ActionResult Logout()
         {
-            Session["CurrentUser"] = null;
+            Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

@@ -6,7 +6,6 @@
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="userId" Type="Int32" Nullable="false" />
-    <Property Name="payMethodId" Type="Int32" Nullable="false" />
     <Property Name="sumMoney" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="cardHolderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
@@ -18,8 +17,8 @@
     <Property Name="zipCode" Type="Int32" Nullable="false" />
     <Property Name="phoneNumber" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Orders_Has_Products" Relationship="Self.FK_Orders_Has_Products_Orders1" FromRole="Orders" ToRole="Orders_Has_Products" />
-    <NavigationProperty Name="PayMethod" Relationship="Self.FK_Orders_PayMethods" FromRole="Orders" ToRole="PayMethods" />
     <NavigationProperty Name="User" Relationship="Self.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
+    <Property Name="securityCode" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Orders_Has_Products">
     <Key>
@@ -32,14 +31,6 @@
     <Property Name="pricePerUnit" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <NavigationProperty Name="Order" Relationship="Self.FK_Orders_Has_Products_Orders1" FromRole="Orders_Has_Products" ToRole="Orders" />
     <NavigationProperty Name="Product" Relationship="Self.FK_Orders_Has_Products_Products1" FromRole="Orders_Has_Products" ToRole="Products" />
-  </EntityType>
-  <EntityType Name="PayMethod">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" />
-    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_PayMethods" FromRole="PayMethods" ToRole="Orders" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -86,18 +77,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Orders_PayMethods">
-    <End Role="PayMethods" Type="Self.PayMethod" Multiplicity="1" />
-    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PayMethods">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Orders">
-        <PropertyRef Name="payMethodId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Orders_Users">
     <End Role="Users" Type="Self.User" Multiplicity="1" />
     <End Role="Orders" Type="Self.Order" Multiplicity="*" />
@@ -137,17 +116,12 @@
   <EntityContainer Name="MarketDBEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Orders" EntityType="Self.Order" />
     <EntitySet Name="Orders_Has_Products" EntityType="Self.Orders_Has_Products" />
-    <EntitySet Name="PayMethods" EntityType="Self.PayMethod" />
     <EntitySet Name="Products" EntityType="Self.Product" />
     <EntitySet Name="Roles" EntityType="Self.Role" />
     <EntitySet Name="Users" EntityType="Self.User" />
     <AssociationSet Name="FK_Orders_Has_Products_Orders1" Association="Self.FK_Orders_Has_Products_Orders1">
       <End Role="Orders" EntitySet="Orders" />
       <End Role="Orders_Has_Products" EntitySet="Orders_Has_Products" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Orders_PayMethods" Association="Self.FK_Orders_PayMethods">
-      <End Role="PayMethods" EntitySet="PayMethods" />
-      <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
     <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
       <End Role="Users" EntitySet="Users" />

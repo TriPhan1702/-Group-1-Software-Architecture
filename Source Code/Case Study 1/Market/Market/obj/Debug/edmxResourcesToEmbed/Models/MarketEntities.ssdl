@@ -6,7 +6,6 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="userId" Type="int" Nullable="false" />
-    <Property Name="payMethodId" Type="int" Nullable="false" />
     <Property Name="sumMoney" Type="money" Nullable="false" />
     <Property Name="note" Type="nvarchar" MaxLength="500" />
     <Property Name="cardHolderName" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -17,6 +16,7 @@
     <Property Name="adressLine2" Type="nvarchar" MaxLength="100" />
     <Property Name="zipCode" Type="int" Nullable="false" />
     <Property Name="phoneNumber" Type="int" Nullable="false" />
+    <Property Name="securityCode" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Orders_Has_Products">
     <Key>
@@ -27,13 +27,6 @@
     <Property Name="productId" Type="int" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
     <Property Name="pricePerUnit" Type="money" Nullable="false" />
-  </EntityType>
-  <EntityType Name="PayMethods">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="Products">
     <Key>
@@ -88,18 +81,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Orders_PayMethods">
-    <End Role="PayMethods" Type="Self.PayMethods" Multiplicity="1" />
-    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PayMethods">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Orders">
-        <PropertyRef Name="payMethodId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Orders_Users">
     <End Role="Users" Type="Self.Users" Multiplicity="1" />
     <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -127,7 +108,6 @@
   <EntityContainer Name="MarketDBModelStoreContainer">
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders_Has_Products" EntityType="Self.Orders_Has_Products" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="PayMethods" EntityType="Self.PayMethods" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -138,10 +118,6 @@
     <AssociationSet Name="FK_Orders_Has_Products_Products1" Association="Self.FK_Orders_Has_Products_Products1">
       <End Role="Products" EntitySet="Products" />
       <End Role="Orders_Has_Products" EntitySet="Orders_Has_Products" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Orders_PayMethods" Association="Self.FK_Orders_PayMethods">
-      <End Role="PayMethods" EntitySet="PayMethods" />
-      <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
     <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
       <End Role="Users" EntitySet="Users" />

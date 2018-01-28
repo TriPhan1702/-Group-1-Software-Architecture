@@ -1,7 +1,104 @@
-﻿@{
+﻿@model Market.Models.Order
+
+@{
     ViewBag.Title = "Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container align-content-center mt-5">
-<h1 class="text-center align-self-center">Order Completed</h1>
+
+<div class="container mt-5">
+    <div class="jumbotron">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-justified indigo" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#CreditTab" role="tab"><i class="fa fa-credit-card"></i> Credit Card</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#PaypalTab" role="tab"><i class="fa fa-paypal"></i> Paypal</a>
+            </li>
+        </ul>
+        <!-- Tab panels -->
+        <div class="tab-content">
+
+            <!--Panel 1-->
+            <div class="tab-pane fade in show active" id="CreditTab" role="tabpanel">
+
+                @using (Html.BeginForm("CreditCard", "Order"))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <h3>Credit Card Information</h3>
+
+                    <!--Title-->
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.cardHolderName)
+                        @Html.LabelFor(m => m.cardHolderName)
+                        @Html.ValidationMessageFor(m => m.cardHolderName)
+                    </div>
+                    <!--ShortDescription-->
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.cardNumber)
+                        @Html.LabelFor(m => m.cardNumber)
+                        @Html.ValidationMessageFor(m => m.cardNumber)
+                    </div>
+                    <!--Thumbnail-->
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.expirationDate)
+                        @Html.LabelFor(m => m.expirationDate)
+                        @Html.ValidationMessageFor(m => m.expirationDate)
+                    </div>
+                    <!--Contentlabel+textarea-->
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.securityCode)
+                        @Html.LabelFor(m => m.securityCode)
+                        @Html.ValidationMessageFor(m => m.securityCode)
+                    </div>
+
+                    <h3>Billing Details</h3>
+
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.name)
+                        @Html.LabelFor(m => m.name)
+                        @Html.ValidationMessageFor(m => m.name)
+                    </div>
+
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.adressLine1)
+                        @Html.LabelFor(m => m.adressLine1)
+                        @Html.ValidationMessageFor(m => m.adressLine1)
+                    </div>
+
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.adressLine2)
+                        @Html.LabelFor(m => m.adressLine2)
+                        @Html.ValidationMessageFor(m => m.adressLine2)
+                    </div>
+
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.zipCode)
+                        @Html.LabelFor(m => m.zipCode)
+                        @Html.ValidationMessageFor(m => m.zipCode)
+                    </div>
+
+                    <div class="md-form">
+                        @Html.TextBoxFor(m => m.phoneNumber)
+                        @Html.LabelFor(m => m.phoneNumber)
+                        @Html.ValidationMessageFor(m => m.phoneNumber)
+                    </div>
+
+                    <!--Pay Button-->
+                    <div class="text-center">
+                        <button class="btn btn-unique">Pay through Credit Card</button>
+                    </div>
+                }
+
+            </div>
+            <!--/.Panel 1-->
+
+            <!--Panel 2-->
+            <div class="tab-pane fade  text-center" id="PaypalTab" role="tabpanel">
+                <a class="btn btn-primary w-100" href="@Url.Action("Paypal")">Pay through Paypal</a>
+            </div>
+            <!--/.Panel 2-->
+        </div>
+    </div>
 </div>

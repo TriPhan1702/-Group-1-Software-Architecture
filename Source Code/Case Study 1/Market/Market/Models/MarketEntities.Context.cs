@@ -27,7 +27,6 @@ namespace Market.Models
     
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Orders_Has_Products> Orders_Has_Products { get; set; }
-        public virtual DbSet<PayMethod> PayMethods { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }

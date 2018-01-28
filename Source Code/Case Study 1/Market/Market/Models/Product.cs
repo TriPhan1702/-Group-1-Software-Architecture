@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -27,21 +28,26 @@ namespace Market.Models
 
         [Required]
         [MaxLength(100)]
+        [DisplayName("Name")]
         public string name { get; set; }
 
         [Required]
         [AllowHtml]
+        [DisplayName("Description")]
         public string description { get; set; }
 
         [MaxLength(100)]
+        [DisplayName("Short Description")]
         public string shortDescription { get; set; }
 
         [Required]
-        [Range(0, float.MaxValue, ErrorMessage = "Please enter valid float Number")]
+        [DisplayName("Price")]
+        [Range(0, 999999999999, ErrorMessage = "Price must be greater than 0")]
         public decimal price { get; set; }
         public bool isActive { get; set; }
 
         [Required]
+        [DisplayName("Thumbnail URL")]
         public string imageURL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

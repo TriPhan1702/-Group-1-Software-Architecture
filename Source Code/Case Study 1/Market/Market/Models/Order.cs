@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Market.Models
@@ -24,46 +25,57 @@ namespace Market.Models
     
         public int id { get; set; }
         public int userId { get; set; }
-        public int payMethodId { get; set; }
         public decimal sumMoney { get; set; }
 
         [MaxLength(500)]
+        [DisplayName("Note")]
         public string note { get; set; }
 
         [Required]
         [MaxLength(100)]
+        [DisplayName("Card Holder's Name")]
         public string cardHolderName { get; set; }
 
         [Required]
-        [RegularExpression("^[0-9]*$(12)", ErrorMessage = "UPRN must be numeric")]
+        [DisplayName("Card Number")]
+        [RegularExpression("^[0-9]*${12}", ErrorMessage = "Card Number must be numeric and has 12 digits")]
         public int cardNumber { get; set; }
 
         [Required]
-        [RegularExpression("[0-9](2)/[0-9](2)", ErrorMessage = "Invalid Expiration Date")]
+        [RegularExpression("^[0-9]*${4}", ErrorMessage = "Expiration Date must be numeric and has 4 digits")]
         public string expirationDate { get; set; }
 
         [Required]
         [MaxLength(100)]
+        [DisplayName("Full Name")]
         public string name { get; set; }
 
         [Required]
         [MaxLength(100)]
+        [DisplayName("Adress Line 1")]
         public string adressLine1 { get; set; }
 
         [MaxLength(100)]
+        [DisplayName("Adress Line 2")]
         public string adressLine2 { get; set; }
 
         [Required]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "UPRN must be numeric")]
+        [DisplayName("ZIP Code")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Zip Code must be numeric")]
         public int zipCode { get; set; }
 
         [Required]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "UPRN must be numeric")]
+        [DisplayName("Phone Number")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Zip Code must be numeric")]
         public int phoneNumber { get; set; }
+
+        [Required]
+        [DisplayName("Security Code")]
+        [RegularExpression("^[0-9]*${3}", ErrorMessage = "Security Code must be numeric and has 3 digits")]
+        public int securityCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders_Has_Products> Orders_Has_Products { get; set; }
-        public virtual PayMethod PayMethod { get; set; }
         public virtual User User { get; set; }
     }
 }
