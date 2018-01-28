@@ -20,7 +20,7 @@ namespace Market.Controllers
 
         public ActionResult Index()
         {
-            var productList = from p in Context.Products where p.isActive select p;
+            var productList = (from p in Context.Products where p.isActive select p).ToList();
 
             var productListModelView = new ProductListlViewModel()
             {

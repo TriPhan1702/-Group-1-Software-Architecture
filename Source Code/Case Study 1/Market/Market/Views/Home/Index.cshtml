@@ -58,6 +58,9 @@
                                         <a class="" data-toggle="tooltip" data-placement="top" title="Add to Wishlist">
                                             <i class="fa fa-heart grey-text"></i>
                                         </a>
+                                        <a class="add-to-cart" data-object='{"id":"@product.id","image":"@product.imageURL","name":"@product.name","price":"@product.price"}' data-toggle="tooltip" data-placement="top" title="Add to Wishlist">
+                                            <i class="fa fa-shopping-cart grey-text"></i>
+                                        </a>
                                     </span>
                                 </div>
 
@@ -83,3 +86,31 @@
         <h1 class="text-center align-self-center">No Item Found</h1>
     }
 </div>
+<script>
+    $('.add-to-cart').on('click', function () {
+        var value = $(this).data('object');
+        var myStore = [];
+        var local = JSON.parse(localStorage.getItem('product'));
+        if (!local) {
+            value.quantity = 1;
+            myStore.push(value);
+            localStorage.setItem('product', JSON.stringify(myStore));
+        } else {
+            myStore = local;
+            var curentIndex = -1;
+            local.map(function (el, index) {
+                if (el.id == value.id) {
+                    curentIndex = index;
+                }
+            });
+            if (curentIndex == -1) {
+                
+                value.quantity = 1;
+                myStore.push(value);
+            } else {
+                myStore[curentIndex].quantity++;
+            }
+            localStorage.setItem('product', JSON.stringify(myStore));
+        }
+    })
+</script>
