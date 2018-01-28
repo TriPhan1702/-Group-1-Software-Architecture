@@ -1,8 +1,12 @@
-﻿
+﻿@model Market.Models.Order
 @{
     ViewBag.Title = "ViewCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<!--Display Alert-->
+@Html.Raw(TempData["message"])
+
 <div class="container  p-4">
     <div class="card">
         <table class="table">
@@ -38,7 +42,7 @@
         <form class="p-2 needs-validation">
             <div class="md-form">
                 <input type="text" name="name" id="name" required class="form-control">
-                <label for="name" class="">Họ và Tên</label>
+                <label for="name" class="">Name</label>
             </div>
             <div class="md-form">
                 <input type="email" name="email" id="email" required class="form-control">
@@ -58,7 +62,7 @@
                 <input type="text" name="stk" id="stk" required class="form-control">
                 <label for="stk" class="">Số tài khoản</label>
             </div>
-            <button type="submit" class="btn btn-primary">Thanh toán</button>
+            <button type="submit" class="btn btn-primary">Checkout</button>
         </form>
     </div>
 

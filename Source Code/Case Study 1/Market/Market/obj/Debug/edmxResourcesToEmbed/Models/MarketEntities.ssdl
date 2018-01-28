@@ -7,8 +7,16 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="userId" Type="int" Nullable="false" />
     <Property Name="payMethodId" Type="int" Nullable="false" />
-    <Property Name="sumMoney" Type="float" Nullable="false" />
+    <Property Name="sumMoney" Type="money" Nullable="false" />
     <Property Name="note" Type="nvarchar" MaxLength="500" />
+    <Property Name="cardHolderName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="cardNumber" Type="int" Nullable="false" />
+    <Property Name="expirationDate" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="adressLine1" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="adressLine2" Type="nvarchar" MaxLength="100" />
+    <Property Name="zipCode" Type="int" Nullable="false" />
+    <Property Name="phoneNumber" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Orders_Has_Products">
     <Key>
@@ -18,7 +26,7 @@
     <Property Name="orderId" Type="int" Nullable="false" />
     <Property Name="productId" Type="int" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
-    <Property Name="pricePerUnit" Type="float" Nullable="false" />
+    <Property Name="pricePerUnit" Type="money" Nullable="false" />
   </EntityType>
   <EntityType Name="PayMethods">
     <Key>
@@ -35,7 +43,7 @@
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="shortDescription" Type="nvarchar" MaxLength="100" />
-    <Property Name="price" Type="float" Nullable="false" />
+    <Property Name="price" Type="money" Nullable="false" />
     <Property Name="isActive" Type="bit" Nullable="false" />
     <Property Name="imageURL" Type="nvarchar(max)" Nullable="false" />
   </EntityType>

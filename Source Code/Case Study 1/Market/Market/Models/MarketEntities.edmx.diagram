@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5f47f866f47947b6b7d9f4bea03be6f9" Name="Diagram1">
-        <EntityTypeShape EntityType="MarketDBModel.Order" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketDBModel.Orders_Has_Products" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketDBModel.PayMethod" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketDBModel.Product" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketDBModel.Role" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketDBModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="7fac06bcc0ed4a8cbeebecc45b0b77e3" Name="Diagram1">
+        <EntityTypeShape EntityType="MarketDBModel.Order" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.Orders_Has_Products" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.PayMethod" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.Product" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.Role" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.User" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
         <AssociationConnector Association="MarketDBModel.FK_Orders_Has_Products_Orders1" ManuallyRouted="false" />
         <AssociationConnector Association="MarketDBModel.FK_Orders_PayMethods" ManuallyRouted="false" />
         <AssociationConnector Association="MarketDBModel.FK_Orders_Users" ManuallyRouted="false" />

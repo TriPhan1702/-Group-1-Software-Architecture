@@ -12,8 +12,16 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="userId" Type="int" Nullable="false" />
           <Property Name="payMethodId" Type="int" Nullable="false" />
-          <Property Name="sumMoney" Type="float" Nullable="false" />
+          <Property Name="sumMoney" Type="money" Nullable="false" />
           <Property Name="note" Type="nvarchar" MaxLength="500" />
+          <Property Name="cardHolderName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="cardNumber" Type="int" Nullable="false" />
+          <Property Name="expirationDate" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="adressLine1" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="adressLine2" Type="nvarchar" MaxLength="100" />
+          <Property Name="zipCode" Type="int" Nullable="false" />
+          <Property Name="phoneNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Orders_Has_Products">
           <Key>
@@ -23,7 +31,7 @@
           <Property Name="orderId" Type="int" Nullable="false" />
           <Property Name="productId" Type="int" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
-          <Property Name="pricePerUnit" Type="float" Nullable="false" />
+          <Property Name="pricePerUnit" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="PayMethods">
           <Key>
@@ -40,7 +48,7 @@
           <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="shortDescription" Type="nvarchar" MaxLength="100" />
-          <Property Name="price" Type="float" Nullable="false" />
+          <Property Name="price" Type="money" Nullable="false" />
           <Property Name="isActive" Type="bit" Nullable="false" />
           <Property Name="imageURL" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
@@ -160,8 +168,16 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="userId" Type="Int32" Nullable="false" />
           <Property Name="payMethodId" Type="Int32" Nullable="false" />
-          <Property Name="sumMoney" Type="Double" Nullable="false" />
+          <Property Name="sumMoney" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="cardHolderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cardNumber" Type="Int32" Nullable="false" />
+          <Property Name="expirationDate" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="adressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="adressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="zipCode" Type="Int32" Nullable="false" />
+          <Property Name="phoneNumber" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Orders_Has_Products" Relationship="Self.FK_Orders_Has_Products_Orders1" FromRole="Orders" ToRole="Orders_Has_Products" />
           <NavigationProperty Name="PayMethod" Relationship="Self.FK_Orders_PayMethods" FromRole="Orders" ToRole="PayMethods" />
           <NavigationProperty Name="User" Relationship="Self.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
@@ -174,7 +190,7 @@
           <Property Name="orderId" Type="Int32" Nullable="false" />
           <Property Name="productId" Type="Int32" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
-          <Property Name="pricePerUnit" Type="Double" Nullable="false" />
+          <Property Name="pricePerUnit" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <NavigationProperty Name="Order" Relationship="Self.FK_Orders_Has_Products_Orders1" FromRole="Orders_Has_Products" ToRole="Orders" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Orders_Has_Products_Products1" FromRole="Orders_Has_Products" ToRole="Products" />
         </EntityType>
@@ -193,11 +209,11 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="price" Type="Double" Nullable="false" />
+          <Property Name="shortDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="isActive" Type="Boolean" Nullable="false" />
           <Property Name="imageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Orders_Has_Products" Relationship="Self.FK_Orders_Has_Products_Products1" FromRole="Products" ToRole="Orders_Has_Products" />
-          <Property Name="shortDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -321,6 +337,14 @@
                 <ScalarProperty Name="payMethodId" ColumnName="payMethodId" />
                 <ScalarProperty Name="sumMoney" ColumnName="sumMoney" />
                 <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="cardHolderName" ColumnName="cardHolderName" />
+                <ScalarProperty Name="cardNumber" ColumnName="cardNumber" />
+                <ScalarProperty Name="expirationDate" ColumnName="expirationDate" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="adressLine1" ColumnName="adressLine1" />
+                <ScalarProperty Name="adressLine2" ColumnName="adressLine2" />
+                <ScalarProperty Name="zipCode" ColumnName="zipCode" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -345,10 +369,10 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="MarketDBModel.Product">
               <MappingFragment StoreEntitySet="Products">
-                <ScalarProperty Name="shortDescription" ColumnName="shortDescription" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="shortDescription" ColumnName="shortDescription" />
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="imageURL" ColumnName="imageURL" />

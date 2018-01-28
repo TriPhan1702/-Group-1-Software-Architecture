@@ -17,6 +17,21 @@ namespace Market.Controllers
             Context = new MarketDBEntities();
         }
 
+        public ActionResult ProductDetail(int productId)
+        {
+            try
+            {
+                var product = Context.Products.Single(p => p.id == productId);
+
+                return View(product);
+            }
+            catch (Exception)
+            {
+                TempData["message"] = "<script>alert('Product not found')</script>";
+                return RedirectToAction("Index","Home");
+            }
+        }
+
         public ActionResult Manage()
         {
             var productList = Context.Products;

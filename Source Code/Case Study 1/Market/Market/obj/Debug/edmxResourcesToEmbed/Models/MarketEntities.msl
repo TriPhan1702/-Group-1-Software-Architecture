@@ -9,6 +9,14 @@
           <ScalarProperty Name="payMethodId" ColumnName="payMethodId" />
           <ScalarProperty Name="sumMoney" ColumnName="sumMoney" />
           <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="cardHolderName" ColumnName="cardHolderName" />
+          <ScalarProperty Name="cardNumber" ColumnName="cardNumber" />
+          <ScalarProperty Name="expirationDate" ColumnName="expirationDate" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="adressLine1" ColumnName="adressLine1" />
+          <ScalarProperty Name="adressLine2" ColumnName="adressLine2" />
+          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
+          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -33,10 +41,10 @@
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="MarketDBModel.Product">
         <MappingFragment StoreEntitySet="Products">
-          <ScalarProperty Name="shortDescription" ColumnName="shortDescription" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="shortDescription" ColumnName="shortDescription" />
           <ScalarProperty Name="price" ColumnName="price" />
           <ScalarProperty Name="isActive" ColumnName="isActive" />
           <ScalarProperty Name="imageURL" ColumnName="imageURL" />

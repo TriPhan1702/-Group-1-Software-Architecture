@@ -7,9 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
-
 namespace Market.Models
 {
     using System;
@@ -24,26 +21,12 @@ namespace Market.Models
         }
     
         public int id { get; set; }
-
-        [Required]
-        [MaxLength(100)]
         public string name { get; set; }
-
-        [Required]
-        [AllowHtml]
         public string description { get; set; }
-
-        [Required]
-        [Range(0, float.MaxValue, ErrorMessage = "Please enter valid float Number")]
-        public double price { get; set; }
-
-        public bool isActive { get; set; }
-
-        [Required]
-        public string imageURL { get; set; }
-
-        [MaxLength(100)]
         public string shortDescription { get; set; }
+        public decimal price { get; set; }
+        public bool isActive { get; set; }
+        public string imageURL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders_Has_Products> Orders_Has_Products { get; set; }

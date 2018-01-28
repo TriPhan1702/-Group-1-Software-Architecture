@@ -17,7 +17,7 @@ namespace Market.Models
         public int orderId { get; set; }
         public int productId { get; set; }
         public int quantity { get; set; }
-        public double pricePerUnit { get; set; }
+        public decimal pricePerUnit { get; set; }
     
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }

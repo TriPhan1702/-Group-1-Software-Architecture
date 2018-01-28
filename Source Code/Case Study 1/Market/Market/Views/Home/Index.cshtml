@@ -1,4 +1,5 @@
-﻿@model Market.ModelView.ProductListlViewModel
+﻿@using Market.ModelView
+@model Market.ModelView.ProductListlViewModel
 @{
     ViewBag.Title = "Home Page";
 }
@@ -6,6 +7,9 @@
 <!--Display Alert-->
 @Html.Raw(TempData["message"])
 
+@{
+    var account = Session["CurrentUser"] as AccountViewModel;
+}
 <div class="jumbotron mt-5">
     <!--Section: Products v.2-->
     <!--If Has Product-->
@@ -27,7 +31,7 @@
                             <!--Card image-->
                             <div class="view overlay hm-white-slight">
                                 <img src="@product.imageURL" class="img-fluid" alt="">
-                                <a>
+                                <a href="@Url.Action("ProductDetail","Product", new {productId = product.id})">
                                     <div class="mask"></div>
                                 </a>
                             </div>
@@ -36,7 +40,7 @@
                             <div class="card-body text-center no-padding">
                                 <h4 class="card-title">
                                     <strong>
-                                        <a href="">@product.name</a>
+                                        <a href="@Url.Action("ProductDetail","Product", new {productId = product.id})">@product.name</a>
                                     </strong>
                                 </h4>
 
@@ -49,19 +53,28 @@
                                 <!--Card footer-->
                                 <div class="card-footer">
                                     <span class="left font-bold">
-                                        <strong>@product.price$</strong>
+                                        <strong>@product.price.ToString("#.##")$</strong>
                                     </span>
-                                    <span class="right">
-                                        <a class="" data-toggle="tooltip" data-placement="top" title="Quick Look">
-                                            <i class="fa fa-eye grey-text"></i>
-                                        </a>
-                                        <a class="" data-toggle="tooltip" data-placement="top" title="Add to Wishlist">
-                                            <i class="fa fa-heart grey-text"></i>
-                                        </a>
-                                        <a class="add-to-cart" data-object='{"id":"@product.id","image":"@product.imageURL","name":"@product.name","price":"@product.price"}' data-toggle="tooltip" data-placement="top" title="Add to Wishlist">
-                                            <i class="fa fa-shopping-cart grey-text"></i>
-                                        </a>
-                                    </span>
+                                    
+                                    @if (account != null) {
+                                       if (account.RoleId == AccountViewModel.UserRoleId)
+                                         {
+                                             <span class="right">
+                                                 <a class="add-to-cart" data-object='{"id":"@product.id","image":"@product.imageURL","name":"@product.name","price":"@product.price"}' data-toggle="tooltip" data-placement="top" title="Add to Wishlist">
+                                                     <i class="fa fa-shopping-cart grey-text"></i>
+                                                 </a>
+                                             </span>
+                                         }
+                                       else
+                                       {
+                                           <span class="right">
+                                               <a href="@Url.Action("UpdateProduct","Product", new {productId = product.id})" data-toggle="tooltip" title="Edit">
+                                                   <i class="fa fa-gear grey-text"></i>
+                                               </a>
+                                           </span>
+                                       }
+                                    
+                                    }
                                 </div>
 
                             </div>

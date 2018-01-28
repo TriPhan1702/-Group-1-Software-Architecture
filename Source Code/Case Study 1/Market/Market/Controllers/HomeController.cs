@@ -30,6 +30,20 @@ namespace Market.Controllers
             return View(productListModelView);
         }
 
+        public ActionResult SearchProduct(string txtSearchValue)
+        {
+            var products = (from p in Context.Products
+                where p.name.Contains(txtSearchValue) || p.shortDescription.Contains(txtSearchValue) ||
+                      p.description.Contains(txtSearchValue)
+                select p).ToList();
+
+            var productListModelView = new ProductListlViewModel()
+            {
+                Products = products.ToList()
+            };
+            return View("Index", productListModelView);
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

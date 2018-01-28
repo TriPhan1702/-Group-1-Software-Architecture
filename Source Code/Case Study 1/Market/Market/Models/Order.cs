@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Market.Models
 {
     using System;
@@ -23,8 +25,41 @@ namespace Market.Models
         public int id { get; set; }
         public int userId { get; set; }
         public int payMethodId { get; set; }
-        public double sumMoney { get; set; }
+        public decimal sumMoney { get; set; }
+
+        [MaxLength(500)]
         public string note { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string cardHolderName { get; set; }
+
+        [Required]
+        [RegularExpression("^[0-9]*$(12)", ErrorMessage = "UPRN must be numeric")]
+        public int cardNumber { get; set; }
+
+        [Required]
+        [RegularExpression("[0-9](2)/[0-9](2)", ErrorMessage = "Invalid Expiration Date")]
+        public string expirationDate { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string name { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string adressLine1 { get; set; }
+
+        [MaxLength(100)]
+        public string adressLine2 { get; set; }
+
+        [Required]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "UPRN must be numeric")]
+        public int zipCode { get; set; }
+
+        [Required]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "UPRN must be numeric")]
+        public int phoneNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orders_Has_Products> Orders_Has_Products { get; set; }

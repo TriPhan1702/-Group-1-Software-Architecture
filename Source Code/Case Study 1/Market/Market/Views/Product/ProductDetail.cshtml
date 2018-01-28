@@ -1,0 +1,25 @@
+﻿@model Market.Models.Product
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-4 "><img class="w-100" src="@Model.imageURL"/></div>
+            <div class="col-md-8">
+
+                <h1>@Model.name</h1>
+
+                <h2>@Model.price.ToString("#.##")$</h2>
+
+                <a class="btn btn-primary">Add To Cart</a><br/>
+
+                @Html.Raw(Model.description)
+
+            </div>
+        </div>
+    </div>
+</div>
+

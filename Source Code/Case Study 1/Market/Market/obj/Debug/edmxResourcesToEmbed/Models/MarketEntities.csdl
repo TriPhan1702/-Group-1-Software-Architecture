@@ -7,8 +7,16 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="userId" Type="Int32" Nullable="false" />
     <Property Name="payMethodId" Type="Int32" Nullable="false" />
-    <Property Name="sumMoney" Type="Double" Nullable="false" />
+    <Property Name="sumMoney" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="cardHolderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="cardNumber" Type="Int32" Nullable="false" />
+    <Property Name="expirationDate" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="adressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="adressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="zipCode" Type="Int32" Nullable="false" />
+    <Property Name="phoneNumber" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Orders_Has_Products" Relationship="Self.FK_Orders_Has_Products_Orders1" FromRole="Orders" ToRole="Orders_Has_Products" />
     <NavigationProperty Name="PayMethod" Relationship="Self.FK_Orders_PayMethods" FromRole="Orders" ToRole="PayMethods" />
     <NavigationProperty Name="User" Relationship="Self.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
@@ -21,7 +29,7 @@
     <Property Name="orderId" Type="Int32" Nullable="false" />
     <Property Name="productId" Type="Int32" Nullable="false" />
     <Property Name="quantity" Type="Int32" Nullable="false" />
-    <Property Name="pricePerUnit" Type="Double" Nullable="false" />
+    <Property Name="pricePerUnit" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <NavigationProperty Name="Order" Relationship="Self.FK_Orders_Has_Products_Orders1" FromRole="Orders_Has_Products" ToRole="Orders" />
     <NavigationProperty Name="Product" Relationship="Self.FK_Orders_Has_Products_Products1" FromRole="Orders_Has_Products" ToRole="Products" />
   </EntityType>
@@ -40,11 +48,11 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="price" Type="Double" Nullable="false" />
+    <Property Name="shortDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
     <Property Name="isActive" Type="Boolean" Nullable="false" />
     <Property Name="imageURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Orders_Has_Products" Relationship="Self.FK_Orders_Has_Products_Products1" FromRole="Products" ToRole="Orders_Has_Products" />
-    <Property Name="shortDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
