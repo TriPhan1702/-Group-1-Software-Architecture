@@ -7,7 +7,7 @@
       <Diagram DiagramId="7fac06bcc0ed4a8cbeebecc45b0b77e3" Name="Diagram1">
         <EntityTypeShape EntityType="MarketDBModel.Order" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketDBModel.Orders_Has_Products" Width="1.5" PointX="7.5" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="MarketDBModel.Product" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MarketDBModel.Product" Width="1.5" PointX="10.25" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketDBModel.Role" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MarketDBModel.User" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
         <AssociationConnector Association="MarketDBModel.FK_Orders_Has_Products_Orders1" ManuallyRouted="false" />

@@ -39,15 +39,14 @@ namespace Market.Models
         [MaxLength(100)]
         [DisplayName("Short Description")]
         public string shortDescription { get; set; }
-
-        [Required]
+        
         [DisplayName("Price")]
-        [Range(0, 999999999999, ErrorMessage = "Price must be greater than 0")]
+        [Range(0, 999999999, ErrorMessage = "Price must be a positive number")]
         public decimal price { get; set; }
         public bool isActive { get; set; }
 
         [Required]
-        [DisplayName("Thumbnail URL")]
+        [DisplayName("Image URL")]
         public string imageURL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

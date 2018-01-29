@@ -26,9 +26,6 @@ namespace Market.Models
         public int id { get; set; }
         public int userId { get; set; }
         public decimal sumMoney { get; set; }
-
-        [MaxLength(500)]
-        [DisplayName("Note")]
         public string note { get; set; }
 
         [Required]
@@ -38,11 +35,12 @@ namespace Market.Models
 
         [Required]
         [DisplayName("Card Number")]
-        [RegularExpression("^[0-9]*${12}", ErrorMessage = "Card Number must be numeric and has 12 digits")]
+        [RegularExpression("[^0-9]{12}", ErrorMessage = "Card number has 12 digits")]
         public int cardNumber { get; set; }
 
         [Required]
-        [RegularExpression("^[0-9]*${4}", ErrorMessage = "Expiration Date must be numeric and has 4 digits")]
+        [DisplayName("Expiration Date")]
+        [RegularExpression("[^0-9]{4}", ErrorMessage = "Card number has 12 digits")]
         public string expirationDate { get; set; }
 
         [Required]
@@ -61,17 +59,17 @@ namespace Market.Models
 
         [Required]
         [DisplayName("ZIP Code")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Zip Code must be numeric")]
+        [RegularExpression("[^0-9]", ErrorMessage = "ZIP code must me numeric")]
         public int zipCode { get; set; }
 
         [Required]
         [DisplayName("Phone Number")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Zip Code must be numeric")]
+        [RegularExpression("[^0-9]", ErrorMessage = "ZIP code must me numeric")]
         public int phoneNumber { get; set; }
 
         [Required]
         [DisplayName("Security Code")]
-        [RegularExpression("^[0-9]*${3}", ErrorMessage = "Security Code must be numeric and has 3 digits")]
+        [RegularExpression("[^0-9]", ErrorMessage = "Security code must have 3 digits")]
         public int securityCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
