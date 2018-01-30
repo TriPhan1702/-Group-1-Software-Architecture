@@ -7,18 +7,10 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="userId" Type="Int32" Nullable="false" />
     <Property Name="sumMoney" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-    <Property Name="cardHolderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="cardNumber" Type="Int32" Nullable="false" />
-    <Property Name="expirationDate" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="adressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="adressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="zipCode" Type="Int32" Nullable="false" />
-    <Property Name="phoneNumber" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Orders_Has_Products" Relationship="Self.FK_Orders_Has_Products_Orders1" FromRole="Orders" ToRole="Orders_Has_Products" />
     <NavigationProperty Name="User" Relationship="Self.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
-    <Property Name="securityCode" Type="Int32" Nullable="false" />
+    <Property Name="paymentTypeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="PaymentType" Relationship="MarketDBModel.FK_Orders_PaymentTypes" FromRole="Order" ToRole="PaymentType" />
   </EntityType>
   <EntityType Name="Orders_Has_Products">
     <Key>
@@ -135,5 +127,30 @@
       <End Role="Roles" EntitySet="Roles" />
       <End Role="Users" EntitySet="Users" />
     </AssociationSet>
+    <EntitySet Name="PaymentTypes" EntityType="MarketDBModel.PaymentType" />
+    <AssociationSet Name="FK_Orders_PaymentTypes" Association="MarketDBModel.FK_Orders_PaymentTypes">
+      <End Role="PaymentType" EntitySet="PaymentTypes" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="PaymentType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="MarketDBModel.FK_Orders_PaymentTypes" FromRole="PaymentType" ToRole="Order" />
+  </EntityType>
+  <Association Name="FK_Orders_PaymentTypes">
+    <End Type="MarketDBModel.PaymentType" Role="PaymentType" Multiplicity="1" />
+    <End Type="MarketDBModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PaymentType">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="paymentTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

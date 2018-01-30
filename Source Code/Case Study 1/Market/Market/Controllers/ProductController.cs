@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Market.Models;
 using Market.ModelView;
@@ -10,7 +8,7 @@ namespace Market.Controllers
 {
     public class ProductController : Controller
     {
-        private MarketDBEntities Context;
+        private readonly MarketDBEntities Context;
 
         public ProductController()
         {
@@ -28,14 +26,14 @@ namespace Market.Controllers
             catch (Exception)
             {
                 TempData["message"] = "<script>alert('Product not found')</script>";
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
         }
 
         public ActionResult Manage()
         {
             var productList = Context.Products;
-            var productListViewModel = new ProductListlViewModel()
+            var productListViewModel = new ProductListlViewModel
             {
                 Products = productList.ToList()
             };
@@ -75,19 +73,16 @@ namespace Market.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CheckAddProduct(Product product)
         {
-            if (!ModelState.IsValid)
-            {
-                return View("AddProduct", product);
-            }
+            if (!ModelState.IsValid) return View("AddProduct", product);
 
-            Context.Products.Add(new Product()
+            Context.Products.Add(new Product
             {
                 name = product.name,
                 shortDescription = product.name,
                 price = product.price,
                 isActive = true,
                 description = product.description,
-                imageURL = product.imageURL,
+                imageURL = product.imageURL
             });
 
             try
@@ -125,24 +120,21 @@ namespace Market.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CheckUpdateProduct(Product product)
         {
-            if (!ModelState.IsValid)
-            {
-                return View("AddProduct", product);
-            }
-            
-                var productFromDataBase = Context.Products.Single(p => p.id == product.id);
+            if (!ModelState.IsValid) return View("AddProduct", product);
 
-                productFromDataBase.name = product.name;
-                productFromDataBase.shortDescription = product.shortDescription;
-                productFromDataBase.price = product.price;
-                productFromDataBase.imageURL = product.imageURL;
-                productFromDataBase.description = product.description;
+            var productFromDataBase = Context.Products.Single(p => p.id == product.id);
 
-                Context.SaveChanges();
+            productFromDataBase.name = product.name;
+            productFromDataBase.shortDescription = product.shortDescription;
+            productFromDataBase.price = product.price;
+            productFromDataBase.imageURL = product.imageURL;
+            productFromDataBase.description = product.description;
 
-                TempData["message"] = "<script>alert('Product Successfully Updated')</script>";
+            Context.SaveChanges();
 
-                return RedirectToAction("Manage");
+            TempData["message"] = "<script>alert('Product Successfully Updated')</script>";
+
+            return RedirectToAction("Manage");
         }
     }
 }

@@ -150,7 +150,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -178,6 +178,9 @@
     <Compile Include="Models\Orders_Has_Products.cs">
       <DependentUpon>MarketEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PaymentType.cs">
+      <DependentUpon>MarketEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Product.cs">
       <DependentUpon>MarketEntities.tt</DependentUpon>
     </Compile>
@@ -189,6 +192,7 @@
     </Compile>
     <Compile Include="ModelView\AccountViewModel.cs" />
     <Compile Include="ModelView\CartViewModel.cs" />
+    <Compile Include="ModelView\CheckoutViewModel.cs" />
     <Compile Include="ModelView\LoginAccountViewModel.cs" />
     <Compile Include="ModelView\ProductListlViewModel.cs" />
     <Compile Include="ModelView\RegisterAccountViewModel.cs" />

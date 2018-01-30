@@ -12,22 +12,22 @@ namespace Market.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Order
+    public partial class PaymentType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Order()
+        public PaymentType()
         {
-            this.Orders_Has_Products = new HashSet<Orders_Has_Products>();
+            this.Orders = new HashSet<Order>();
         }
     
         public int id { get; set; }
-        public int userId { get; set; }
-        public decimal sumMoney { get; set; }
-        public int paymentTypeId { get; set; }
-    
+        public string name { get; set; }
+
+
+        public static readonly int PayPalPaymentMethodId = 1;
+        public static readonly int CardPaymentMethodId = 2;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Orders_Has_Products> Orders_Has_Products { get; set; }
-        public virtual User User { get; set; }
-        public virtual PaymentType PaymentType { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

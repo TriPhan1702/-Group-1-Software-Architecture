@@ -39,9 +39,10 @@ namespace Market.Models
         [MaxLength(100)]
         [DisplayName("Short Description")]
         public string shortDescription { get; set; }
-        
+
+        [Required]
         [DisplayName("Price")]
-        [Range(0, 999999999, ErrorMessage = "Price must be a positive number")]
+        [Range(0, 999999999, ErrorMessage = "Price must be positive")]
         public decimal price { get; set; }
         public bool isActive { get; set; }
 

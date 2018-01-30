@@ -89,7 +89,6 @@ namespace Market.Controllers
                     Session["CurrentUser"] = new AccountViewModel()
                     {
                         Username = account.username,
-                        Password = account.password,
                         RoleId = account.roleId
                     };
 

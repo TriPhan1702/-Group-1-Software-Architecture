@@ -1,9 +1,21 @@
-﻿@model Market.Models.Order
+﻿@model Market.ModelView.CheckoutViewModel
 
 @{
     ViewBag.Title = "Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@Html.Raw(TempData["message"])
+
+<style>
+    .field-validation-error {
+        color: red
+    }
+
+    .input-validation-error {
+        color: red
+    }
+</style>
 
 <div class="container mt-5">
     <div class="jumbotron">
@@ -30,59 +42,59 @@
 
                     <!--Title-->
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.cardHolderName)
-                        @Html.LabelFor(m => m.cardHolderName)
-                        @Html.ValidationMessageFor(m => m.cardHolderName)
+                        @Html.TextBoxFor(m => m.CardHolderName)
+                        @Html.LabelFor(m => m.CardHolderName)
+                        @Html.ValidationMessageFor(m => m.CardHolderName)
                     </div>
                     <!--ShortDescription-->
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.cardNumber)
-                        @Html.LabelFor(m => m.cardNumber)
-                        @Html.ValidationMessageFor(m => m.cardNumber)
+                        @Html.TextBoxFor(m => m.CardNumber)
+                        @Html.LabelFor(m => m.CardNumber)
+                        @Html.ValidationMessageFor(m => m.CardNumber)
                     </div>
                     <!--Thumbnail-->
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.expirationDate)
-                        @Html.LabelFor(m => m.expirationDate)
-                        @Html.ValidationMessageFor(m => m.expirationDate)
+                        @Html.TextBoxFor(m => m.ExpirationDate)
+                        @Html.LabelFor(m => m.ExpirationDate)
+                        @Html.ValidationMessageFor(m => m.ExpirationDate)
                     </div>
                     <!--Contentlabel+textarea-->
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.securityCode)
-                        @Html.LabelFor(m => m.securityCode)
-                        @Html.ValidationMessageFor(m => m.securityCode)
+                        @Html.TextBoxFor(m => m.SecurityCode)
+                        @Html.LabelFor(m => m.SecurityCode)
+                        @Html.ValidationMessageFor(m => m.SecurityCode)
                     </div>
 
                     <h3>Billing Details</h3>
 
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.name)
-                        @Html.LabelFor(m => m.name)
-                        @Html.ValidationMessageFor(m => m.name)
+                        @Html.TextBoxFor(m => m.Name)
+                        @Html.LabelFor(m => m.Name)
+                        @Html.ValidationMessageFor(m => m.Name)
                     </div>
 
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.adressLine1)
-                        @Html.LabelFor(m => m.adressLine1)
-                        @Html.ValidationMessageFor(m => m.adressLine1)
+                        @Html.TextBoxFor(m => m.AddressLine1)
+                        @Html.LabelFor(m => m.AddressLine1)
+                        @Html.ValidationMessageFor(m => m.AddressLine1)
                     </div>
 
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.adressLine2)
-                        @Html.LabelFor(m => m.adressLine2)
-                        @Html.ValidationMessageFor(m => m.adressLine2)
+                        @Html.TextBoxFor(m => m.AddressLine2)
+                        @Html.LabelFor(m => m.AddressLine2)
+                        @Html.ValidationMessageFor(m => m.AddressLine2)
                     </div>
 
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.zipCode)
-                        @Html.LabelFor(m => m.zipCode)
-                        @Html.ValidationMessageFor(m => m.zipCode)
+                        @Html.TextBoxFor(m => m.ZipCode)
+                        @Html.LabelFor(m => m.ZipCode)
+                        @Html.ValidationMessageFor(m => m.ZipCode)
                     </div>
 
                     <div class="md-form">
-                        @Html.TextBoxFor(m => m.phoneNumber)
-                        @Html.LabelFor(m => m.phoneNumber)
-                        @Html.ValidationMessageFor(m => m.phoneNumber)
+                        @Html.TextBoxFor(m => m.PhoneNumber)
+                        @Html.LabelFor(m => m.PhoneNumber)
+                        @Html.ValidationMessageFor(m => m.PhoneNumber)
                     </div>
 
                     <!--Pay Button-->

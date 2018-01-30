@@ -11,17 +11,8 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="paymentTypeId" Type="int" Nullable="false" />
           <Property Name="sumMoney" Type="money" Nullable="false" />
-          <Property Name="note" Type="nvarchar" MaxLength="500" />
-          <Property Name="cardHolderName" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="cardNumber" Type="int" Nullable="false" />
-          <Property Name="expirationDate" Type="nvarchar" MaxLength="5" Nullable="false" />
-          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="adressLine1" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="adressLine2" Type="nvarchar" MaxLength="100" />
-          <Property Name="zipCode" Type="int" Nullable="false" />
-          <Property Name="phoneNumber" Type="int" Nullable="false" />
-          <Property Name="securityCode" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Orders_Has_Products">
           <Key>
@@ -32,6 +23,13 @@
           <Property Name="productId" Type="int" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="pricePerUnit" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -86,6 +84,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orders_PaymentTypes">
+          <End Role="PaymentTypes" Type="Self.PaymentTypes" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="paymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orders_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -113,6 +123,7 @@
         <EntityContainer Name="MarketDBModelStoreContainer">
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orders_Has_Products" EntityType="Self.Orders_Has_Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentTypes" EntityType="Self.PaymentTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -123,6 +134,10 @@
           <AssociationSet Name="FK_Orders_Has_Products_Products1" Association="Self.FK_Orders_Has_Products_Products1">
             <End Role="Products" EntitySet="Products" />
             <End Role="Orders_Has_Products" EntitySet="Orders_Has_Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_PaymentTypes" Association="Self.FK_Orders_PaymentTypes">
+            <End Role="PaymentTypes" EntitySet="PaymentTypes" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
             <End Role="Users" EntitySet="Users" />
@@ -144,18 +159,10 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="userId" Type="Int32" Nullable="false" />
           <Property Name="sumMoney" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="cardHolderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="cardNumber" Type="Int32" Nullable="false" />
-          <Property Name="expirationDate" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="adressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="adressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="zipCode" Type="Int32" Nullable="false" />
-          <Property Name="phoneNumber" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Orders_Has_Products" Relationship="Self.FK_Orders_Has_Products_Orders1" FromRole="Orders" ToRole="Orders_Has_Products" />
           <NavigationProperty Name="User" Relationship="Self.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
-          <Property Name="securityCode" Type="Int32" Nullable="false" />
+          <Property Name="paymentTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PaymentType" Relationship="MarketDBModel.FK_Orders_PaymentTypes" FromRole="Order" ToRole="PaymentType" />
         </EntityType>
         <EntityType Name="Orders_Has_Products">
           <Key>
@@ -272,7 +279,32 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="PaymentTypes" EntityType="MarketDBModel.PaymentType" />
+          <AssociationSet Name="FK_Orders_PaymentTypes" Association="MarketDBModel.FK_Orders_PaymentTypes">
+            <End Role="PaymentType" EntitySet="PaymentTypes" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="PaymentType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="MarketDBModel.FK_Orders_PaymentTypes" FromRole="PaymentType" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Orders_PaymentTypes">
+          <End Type="MarketDBModel.PaymentType" Role="PaymentType" Multiplicity="1" />
+          <End Type="MarketDBModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="paymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -282,20 +314,11 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="MarketDBModel.Order">
               <MappingFragment StoreEntitySet="Orders">
-                <ScalarProperty Name="securityCode" ColumnName="securityCode" />
+                <ScalarProperty Name="paymentTypeId" ColumnName="paymentTypeId" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="sumMoney" ColumnName="sumMoney" />
-                <ScalarProperty Name="note" ColumnName="note" />
-                <ScalarProperty Name="cardHolderName" ColumnName="cardHolderName" />
-                <ScalarProperty Name="cardNumber" ColumnName="cardNumber" />
-                <ScalarProperty Name="expirationDate" ColumnName="expirationDate" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="adressLine1" ColumnName="adressLine1" />
-                <ScalarProperty Name="adressLine2" ColumnName="adressLine2" />
-                <ScalarProperty Name="zipCode" ColumnName="zipCode" />
-                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Orders_Has_Products">
@@ -337,6 +360,14 @@
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTypes">
+            <EntityTypeMapping TypeName="MarketDBModel.PaymentType">
+              <MappingFragment StoreEntitySet="PaymentTypes">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

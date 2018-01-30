@@ -4,19 +4,10 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="MarketDBModel.Order">
         <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="securityCode" ColumnName="securityCode" />
+          <ScalarProperty Name="paymentTypeId" ColumnName="paymentTypeId" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="userId" ColumnName="userId" />
           <ScalarProperty Name="sumMoney" ColumnName="sumMoney" />
-          <ScalarProperty Name="note" ColumnName="note" />
-          <ScalarProperty Name="cardHolderName" ColumnName="cardHolderName" />
-          <ScalarProperty Name="cardNumber" ColumnName="cardNumber" />
-          <ScalarProperty Name="expirationDate" ColumnName="expirationDate" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="adressLine1" ColumnName="adressLine1" />
-          <ScalarProperty Name="adressLine2" ColumnName="adressLine2" />
-          <ScalarProperty Name="zipCode" ColumnName="zipCode" />
-          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -59,6 +50,14 @@
           <ScalarProperty Name="username" ColumnName="username" />
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="isActive" ColumnName="isActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentTypes">
+      <EntityTypeMapping TypeName="MarketDBModel.PaymentType">
+        <MappingFragment StoreEntitySet="PaymentTypes">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
