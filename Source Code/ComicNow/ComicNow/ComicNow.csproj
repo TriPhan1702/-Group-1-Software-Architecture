@@ -169,19 +169,26 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\AccountsController.cs" />
     <Compile Include="Controllers\Api\AdminController.cs" />
+    <Compile Include="Controllers\Api\ChaptersController.cs" />
     <Compile Include="Controllers\Api\ComicsController.cs" />
     <Compile Include="Controllers\Api\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DTOs\Account\AccountDto.cs" />
     <Compile Include="DTOs\Account\AccountDtoForAdmin.cs" />
     <Compile Include="DTOs\AuthorDto.cs" />
-    <Compile Include="DTOs\ChapterDto.cs" />
+    <Compile Include="DTOs\Chapter\ChapterDto.cs" />
+    <Compile Include="DTOs\Chapter\UploadChapterDto.cs" />
     <Compile Include="DTOs\Comic\ComicDto.cs" />
     <Compile Include="DTOs\Comic\ComicThumbnailDto.cs" />
     <Compile Include="DTOs\Account\LoginAccountDto.cs" />
+    <Compile Include="DTOs\Comic\ComicWithCommentListDto.cs" />
+    <Compile Include="DTOs\Comment\CommentDto.cs" />
+    <Compile Include="DTOs\Comment\PostCommentDto.cs" />
     <Compile Include="DTOs\PublisherDto.cs" />
     <Compile Include="DTOs\Account\RegisterAccountDto.cs" />
     <Compile Include="DTOs\TagDto.cs" />
+    <Compile Include="DTOs\Comic\UploadComicDto.cs" />
+    <Compile Include="DTOs\Page\UploadPageDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

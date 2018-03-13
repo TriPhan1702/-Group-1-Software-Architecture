@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ComicNow.DTOs.Chapter;
 using ComicNow.Models;
 
 namespace ComicNow.DTOs.Comic
@@ -21,5 +22,6 @@ namespace ComicNow.DTOs.Comic
         public List<ChapterDto> Chapters { get; set; }
         public PublisherDto Publisher { get; set; }
         public List<AuthorDto> Authors { get; set; }
+        public List<TagDto> Tags { get; set; }
     }
 }

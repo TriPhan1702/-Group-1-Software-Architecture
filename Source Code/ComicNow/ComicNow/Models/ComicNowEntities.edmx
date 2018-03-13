@@ -36,12 +36,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ComicId" Type="int" />
+          <Property Name="ComicId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="PublishingDate" Type="datetime" Nullable="false" />
-          <Property Name="OrderNumber" Type="float" Nullable="false" />
-          <Property Name="PageNumber" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdated" Type="datetime" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="PageNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Comic">
           <Key>
@@ -50,7 +51,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="OtherName" Type="nvarchar" MaxLength="500" />
-          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar" MaxLength="4000" />
           <Property Name="PublisherId" Type="int" Nullable="false" />
           <Property Name="ChapterNumber" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -70,7 +71,8 @@
           <Property Name="ComicId" Type="int" Nullable="false" />
           <Property Name="AccountId" Type="int" Nullable="false" />
           <Property Name="Text" Type="nvarchar" MaxLength="500" Nullable="false" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdate" Type="datetime" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="FavoriteList">
@@ -167,7 +169,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Chapters_Comic">
-          <End Role="Comic" Type="Self.Comic" Multiplicity="0..1" />
+          <End Role="Comic" Type="Self.Comic" Multiplicity="1" />
           <End Role="Chapters" Type="Self.Chapters" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Comic">
@@ -418,14 +420,15 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ComicId" Type="Int32" />
+          <Property Name="ComicId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PublishingDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="OrderNumber" Type="Double" Nullable="false" />
           <Property Name="PageNumber" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Comic" Relationship="Self.FK_Chapters_Comic" FromRole="Chapters" ToRole="Comic" />
           <NavigationProperty Name="Pages" Relationship="Self.FK_Pages_Chapters" FromRole="Chapters" ToRole="Pages" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdated" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Comic">
           <Key>
@@ -434,7 +437,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OtherName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="PublisherId" Type="Int32" Nullable="false" />
           <Property Name="ChapterNumber" Type="Int32" Nullable="false" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
@@ -462,10 +465,11 @@
           <Property Name="ComicId" Type="Int32" Nullable="false" />
           <Property Name="AccountId" Type="Int32" Nullable="false" />
           <Property Name="Text" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Account" Relationship="Self.FK_Comments_Accounts" FromRole="Comments" ToRole="Accounts" />
           <NavigationProperty Name="Comic" Relationship="Self.FK_Comments_Comic" FromRole="Comments" ToRole="Comic" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -545,7 +549,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Chapters_Comic">
-          <End Role="Comic" Type="Self.Comic" Multiplicity="0..1" />
+          <End Role="Comic" Type="Self.Comic" Multiplicity="1" />
           <End Role="Chapters" Type="Self.Chapter" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Comic">
@@ -741,12 +745,13 @@
           <EntitySetMapping Name="Chapters">
             <EntityTypeMapping TypeName="ComicNowModel.Chapter">
               <MappingFragment StoreEntitySet="Chapters">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ComicId" ColumnName="ComicId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="PublishingDate" ColumnName="PublishingDate" />
-                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
                 <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -774,12 +779,13 @@
           <EntitySetMapping Name="Comments">
             <EntityTypeMapping TypeName="ComicNowModel.Comment">
               <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ComicId" ColumnName="ComicId" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="Text" ColumnName="Text" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

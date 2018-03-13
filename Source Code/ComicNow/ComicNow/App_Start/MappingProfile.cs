@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using ComicNow.DTOs;
 using ComicNow.DTOs.Account;
+using ComicNow.DTOs.Chapter;
 using ComicNow.DTOs.Comic;
+using ComicNow.DTOs.Comment;
+using ComicNow.DTOs.Page;
 using ComicNow.Models;
 
 namespace ComicNow
@@ -25,6 +28,16 @@ namespace ComicNow
             Mapper.CreateMap<Comic, ComicDto>().ReverseMap();
 
             Mapper.CreateMap<Comic, ComicThumbnailDto>().ReverseMap();
+
+            Mapper.CreateMap<Comment, ComicDto>().ReverseMap();
+
+            Mapper.CreateMap<Comic, ComicWithCommentListDto>().ReverseMap();
+
+            Mapper.CreateMap<Comment, PostCommentDto>().ReverseMap();
+
+            Mapper.CreateMap<Chapter, ChapterDto>().ReverseMap();
+
+            Mapper.CreateMap<Page, UploadPageDto>().ReverseMap();
         }
     }
 }
