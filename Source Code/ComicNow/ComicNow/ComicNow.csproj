@@ -66,13 +66,19 @@
       <HintPath>..\packages\CloudinaryDotNet.1.1.1\lib\net\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -188,7 +194,7 @@
     <Compile Include="DTOs\Account\RegisterAccountDto.cs" />
     <Compile Include="DTOs\TagDto.cs" />
     <Compile Include="DTOs\Comic\UploadComicDto.cs" />
-    <Compile Include="DTOs\Page\UploadPageDto.cs" />
+    <Compile Include="DTOs\Page\PageDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -249,8 +255,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Models\ComicNowEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ComicNowEntities.Context.cs</LastGenOutput>
       <DependentUpon>ComicNowEntities.edmx</DependentUpon>
+      <LastGenOutput>ComicNowEntities.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\ComicNowEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -269,6 +275,7 @@
     <Content Include="Models\ComicNowEntities.edmx.diagram">
       <DependentUpon>ComicNowEntities.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

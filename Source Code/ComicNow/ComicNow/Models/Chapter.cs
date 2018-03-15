@@ -24,10 +24,10 @@ namespace ComicNow.Models
         public int ComicId { get; set; }
         public string Name { get; set; }
         public System.DateTime PublishingDate { get; set; }
-        public int PageNumber { get; set; }
-        public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime LastUpdated { get; set; }
+        public bool IsActive { get; set; }
+        public int PageNumber { get; set; }
     
         public virtual Comic Comic { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

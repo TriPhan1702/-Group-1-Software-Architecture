@@ -18,9 +18,9 @@ namespace ComicNow.Models
         public int ComicId { get; set; }
         public int AccountId { get; set; }
         public string Text { get; set; }
-        public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public System.DateTime LastUpdate { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual Account Account { get; set; }
         public virtual Comic Comic { get; set; }

@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Default Web Site/" />
+  <setParameter name="ComicNowEntities-Web.config Connection String" value="metadata=res://*/Models.ComicNowEntities.csdl|res://*/Models.ComicNowEntities.ssdl|res://*/Models.ComicNowEntities.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=comicnow.ctxsbvfggn9g.ap-southeast-1.rds.amazonaws.com;initial catalog=ComicNow;persist security info=True;user id=canhvedepzai;password=tri067854774;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+</parameters>

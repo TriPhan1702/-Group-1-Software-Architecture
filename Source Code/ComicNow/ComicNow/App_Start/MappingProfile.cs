@@ -37,7 +37,7 @@ namespace ComicNow
 
             Mapper.CreateMap<Chapter, ChapterDto>().ReverseMap();
 
-            Mapper.CreateMap<Page, UploadPageDto>().ReverseMap();
+            Mapper.CreateMap<Page, PageDto>().ReverseMap();
         }
     }
 }

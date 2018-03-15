@@ -32,14 +32,14 @@ namespace ComicNow.Models
         public string Description { get; set; }
         public int PublisherId { get; set; }
         public int ChapterNumber { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public System.DateTime LastUpdate { get; set; }
         public bool Status { get; set; }
         public double Rating { get; set; }
         public int TimeRated { get; set; }
         public int Views { get; set; }
         public bool IsActive { get; set; }
         public string ThumbnailUrl { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public System.DateTime LastUpdate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Chapter> Chapters { get; set; }
