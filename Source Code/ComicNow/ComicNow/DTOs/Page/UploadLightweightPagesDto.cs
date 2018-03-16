@@ -5,9 +5,8 @@ using System.Web;
 
 namespace ComicNow.DTOs.Page
 {
-    public class UploadPageDto
+    public class UploadLightweightPagesDto
     {
-        public int ChapterId { get; set; }
         public string FileName { get; set; }
         public string URL { get; set; }
     }

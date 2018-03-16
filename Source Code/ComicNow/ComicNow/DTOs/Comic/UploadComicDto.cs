@@ -20,7 +20,7 @@ namespace ComicNow.DTOs.Comic
         
         public string ThumbnailUrl { get; set; }
 
-        public List<AuthorDto> Authors { get; set; }
-        public List<TagDto> Tags { get; set; }
+        public List<int> Authors { get; set; }
+        public List<int> Tags { get; set; }
     }
 }

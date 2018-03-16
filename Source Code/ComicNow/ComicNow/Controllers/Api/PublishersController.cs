@@ -23,6 +23,7 @@ namespace ComicNow.Controllers.Api
         //GET api/publishers
         //Get a list of all publisher
         [HttpGet]
+        [Route("api/publishers")]
         public IHttpActionResult GetPublishers()
         {
             var publisher = Context.Publishers;
@@ -48,10 +49,10 @@ namespace ComicNow.Controllers.Api
             return Ok(Mapper.Map<Publisher, PublisherDto>(publisher));
         }
 
-        //POST /api/publishers/{publisherName}
+        //POST /api/publishers/create/{publisherName}
         //Add a new Publisher
         [HttpPost]
-        [Route("api/publishers/{publisherName}")]
+        [Route("api/publishers/create/{publisherName}")]
         public IHttpActionResult CreatePublisher(string publisherName)
         {
             try

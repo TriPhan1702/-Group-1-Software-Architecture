@@ -97,6 +97,7 @@
     <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -181,7 +182,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\AccountsController.cs" />
-    <Compile Include="Controllers\Api\AdminController.cs" />
     <Compile Include="Controllers\Api\AuthorsController.cs" />
     <Compile Include="Controllers\Api\ChaptersController.cs" />
     <Compile Include="Controllers\Api\ComicsController.cs" />
@@ -194,15 +194,21 @@
     <Compile Include="DTOs\Account\AccountDtoForAdmin.cs" />
     <Compile Include="DTOs\AuthorDto.cs" />
     <Compile Include="DTOs\Chapter\ChapterDto.cs" />
+    <Compile Include="DTOs\Chapter\EditChapterDto.cs" />
+    <Compile Include="DTOs\Chapter\LightWeightChapterDto.cs" />
     <Compile Include="DTOs\Chapter\UploadChapterDto.cs" />
     <Compile Include="DTOs\Comic\ComicDto.cs" />
     <Compile Include="DTOs\Comic\ComicThumbnailDto.cs" />
     <Compile Include="DTOs\Account\LoginAccountDto.cs" />
-    <Compile Include="DTOs\Comic\ComicWithCommentListDto.cs" />
+    <Compile Include="DTOs\Comic\LightWeightComicDto.cs" />
     <Compile Include="DTOs\Comment\CommentDto.cs" />
     <Compile Include="DTOs\Comment\EditCommentDto.cs" />
     <Compile Include="DTOs\Comment\PostCommentDto.cs" />
     <Compile Include="DTOs\FavoriteDto.cs" />
+    <Compile Include="DTOs\Page\ChangePositionPageDto.cs" />
+    <Compile Include="DTOs\Page\UploadLightweightPagesDto.cs" />
+    <Compile Include="DTOs\Page\UploadPageDto.cs" />
+    <Compile Include="DTOs\Page\UploadMultiplePagesDto.cs" />
     <Compile Include="DTOs\PublisherDto.cs" />
     <Compile Include="DTOs\Account\RegisterAccountDto.cs" />
     <Compile Include="DTOs\RatingDto.cs" />

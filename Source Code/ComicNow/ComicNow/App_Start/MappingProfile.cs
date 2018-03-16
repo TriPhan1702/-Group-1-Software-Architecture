@@ -27,11 +27,11 @@ namespace ComicNow
 
             Mapper.CreateMap<Comic, ComicDto>().ReverseMap();
 
+            Mapper.CreateMap<Comic, LightWeightComicDto>();
+
             Mapper.CreateMap<Comic, ComicThumbnailDto>().ReverseMap();
 
             Mapper.CreateMap<Comment, CommentDto>().ReverseMap();
-
-            Mapper.CreateMap<Comic, ComicWithCommentListDto>().ReverseMap();
 
             Mapper.CreateMap<Comment, PostCommentDto>().ReverseMap();
 

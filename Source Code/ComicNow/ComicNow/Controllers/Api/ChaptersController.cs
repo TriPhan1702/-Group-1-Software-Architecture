@@ -23,7 +23,7 @@ namespace ComicNow.Controllers.Api
         }
 
         //GET /api/chapters/id
-        //Get an information about a chapter
+        //Get information about a chapter
         [HttpGet]
         public IHttpActionResult GetChapter(int id)
         {
@@ -69,7 +69,7 @@ namespace ComicNow.Controllers.Api
                 return NotFound();
             }
 
-            var pages = chapter.Pages;
+            var pages = from p in chapter.Pages orderby p.PageNumber select p;
 
             if (!pages.Any())
             {
@@ -80,9 +80,10 @@ namespace ComicNow.Controllers.Api
         }
 
 
-        //POST /api/chapters
-        //Create a new chapter with all of its pages
+        //POST /api/chapters/create
+        //Create a new chapter
         [HttpPost]
+        [Route("api/chapters/create")]
         public IHttpActionResult PostChapter(UploadChapterDto uploadChapterDto)
         {
             if (!ModelState.IsValid)
@@ -108,26 +109,6 @@ namespace ComicNow.Controllers.Api
                 PageNumber = 0
             };
 
-            if (uploadChapterDto.Pages.Any())
-            {
-                var pageCount = 0;
-                foreach (var page in uploadChapterDto.Pages)
-                {
-                    var tempPage = new Page()
-                    {
-                        Chapter = chapter,
-                        Comic = comic,
-                        FileName = page.FileName,
-                        URL = page.URL,
-                        PageNumber = pageCount,
-                    };
-                    chapter.Pages.Add(tempPage);
-                    pageCount++;
-                }
-
-                chapter.PageNumber = pageCount;
-            }
-           
             try
             {
                 comic.Chapters.Add(chapter);
@@ -158,6 +139,200 @@ namespace ComicNow.Controllers.Api
             Context.SaveChanges();
 
             return Ok(Mapper.Map<Chapter, ChapterDto>(chapter)); ;
+        }
+
+        //PUT api/chapters/edit
+        //Edit a chapter's information
+        [HttpPut]
+        [Route("api/chapters/edit")]
+        public IHttpActionResult EditChapter(EditChapterDto editChapterDto)
+        {
+            var chapter = Context.Chapters.SingleOrDefault(c => c.Id == editChapterDto.Id);
+
+            if (chapter == null)
+            {
+                return NotFound();
+            }
+            
+            try
+            {
+                chapter.Name = editChapterDto.Name;
+                chapter.PublishingDate = editChapterDto.PublishingDate;
+                chapter.IsActive = editChapterDto.IsActive;
+                chapter.LastUpdated = DateTime.Now;
+                Context.SaveChanges();
+                return Ok(Mapper.Map<Chapter, ChapterDto>(chapter));
+            }
+            catch (Exception)
+            {
+                return Conflict();
+            }
+        }
+
+        //POST api/chapters/addPages
+        //Add multiple pages to a chapter
+        [HttpPost]
+        [Route("api/chapters/addPages")]
+        public IHttpActionResult AddPages(UploadMultiplePagesDto uploadMultiplePagesDto)
+        {
+            var chapter = Context.Chapters.SingleOrDefault(c => c.Id == uploadMultiplePagesDto.ChapterId);
+
+            if (chapter == null)
+            {
+                return NotFound();
+            }
+
+            var count = chapter.Pages.Count;
+
+            var resultList = new List<PageDto>();
+
+            try
+            {
+                
+                foreach (var page in uploadMultiplePagesDto.Pages)
+                {
+                    var newPage = new Page()
+                    {
+                        ChapterId = chapter.Id,
+                        ComicId = chapter.ComicId,
+                        FileName = page.FileName,
+                        PageNumber = count++,
+                        URL = page.URL,
+                    };
+                    chapter.Pages.Add(newPage);
+                    resultList.Add(Mapper.Map<Page, PageDto>(newPage));
+                }
+                chapter.PageNumber = count;
+                Context.SaveChanges();
+                return Ok(resultList);
+            }
+            catch (Exception)
+            {
+                return Conflict();
+            }
+        }
+
+        //POST api/chapters/addPage
+        //Add one page to a chapter
+        [HttpPost]
+        [Route("api/chapters/addPage")]
+        public IHttpActionResult AddPage(UploadPageDto uploadPageDto)
+        {
+            var chapter = Context.Chapters.SingleOrDefault(c => c.Id == uploadPageDto.ChapterId);
+
+            if (chapter == null)
+            {
+                return NotFound();
+            }
+            
+            var newPage = new Page()
+            {
+                ChapterId = chapter.Id,
+                ComicId = chapter.ComicId,
+                FileName = uploadPageDto.FileName,
+                PageNumber = chapter.Pages.Count,
+                URL = uploadPageDto.URL,
+            };
+
+            try
+            {
+                chapter.Pages.Add(newPage);
+                chapter.PageNumber = chapter.Pages.Count;
+                Context.SaveChanges();
+                return Created(new Uri(Request.RequestUri + "/" + newPage.Id), Mapper.Map<Page, PageDto>(newPage));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        //PUT api/chapters/changePagePosition/{pageId}/{destinationPosition}
+        //Take a page at a position and insert it to another position
+        [HttpPut]
+        [Route("api/chapters/changePagePosition/{pageId}/{destinationPosition}")]
+        public IHttpActionResult ChangePagePosition(int pageId, int destinationPosition)
+        {
+            var page = Context.Pages.SingleOrDefault(p => p.Id == pageId);
+
+            if (page == null)
+            {
+                return NotFound();
+            }
+            
+
+            if (destinationPosition <0 || destinationPosition >= page.Chapter.Pages.Count)
+            {
+                return BadRequest();
+            }
+
+            int operation;
+
+            List<Page> pagesInRange;
+
+            if (page.PageNumber > destinationPosition)
+            {
+                operation = 1;
+                pagesInRange = (from p in page.Chapter.Pages where p.PageNumber >= destinationPosition && p.PageNumber < page.PageNumber select p).ToList();
+            }
+            else
+            {
+                operation = -1;
+                pagesInRange = (from p in page.Chapter.Pages where p.PageNumber < destinationPosition && p.PageNumber >= page.PageNumber select p).ToList();
+            }
+
+            page.PageNumber = destinationPosition;
+            if (pagesInRange.Count > 0)
+            {
+                foreach (var p in pagesInRange)
+                {
+                    p.PageNumber += operation;
+                }
+            }
+
+            try
+            {
+                Context.SaveChanges();
+                return Ok(page.Chapter.Pages.Select(Mapper.Map<Page, PageDto>).ToList());
+            }
+            catch (Exception)
+            {
+                return Conflict();
+            }
+        }
+
+        //DELETE api/chapters/deletePage/{pageId}
+        [HttpDelete]
+        [Route("api/chapters/deletePage/{pageId}")]
+        public IHttpActionResult DeletePage(int pageId)
+        {
+            var page = Context.Pages.SingleOrDefault(p => p.Id == pageId);
+
+            if (page == null)
+            {
+                return NotFound();
+            }
+
+            var chapter = page.Chapter;
+
+            var pagesInRange = from p in chapter.Pages where p.PageNumber > page.PageNumber select p;
+
+            try
+            {
+                foreach (var p in pagesInRange)
+                {
+                    p.PageNumber -= 1;
+                }
+
+                chapter.Pages.Remove(page);
+                Context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return Conflict();
+            }
         }
     }
 }

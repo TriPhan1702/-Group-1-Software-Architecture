@@ -5,10 +5,10 @@ using System.Web;
 
 namespace ComicNow.DTOs.Page
 {
-    public class UploadPageDto
+    public class UploadMultiplePagesDto
     {
         public int ChapterId { get; set; }
-        public string FileName { get; set; }
-        public string URL { get; set; }
+
+        public List<UploadLightweightPagesDto> Pages { get; set; }
     }
 }

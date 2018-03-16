@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using ComicNow.DTOs.Page;
 
 namespace ComicNow.DTOs.Chapter
 {
-    public class UploadChapterDto
+    public class EditChapterDto
     {
-        public int ComicId { get; set; }
-
-        [Required]
-        [MaxLength(500)]
+        public int Id { get; set; }
         public string Name { get; set; }
-
-        [Required]
         public System.DateTime PublishingDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

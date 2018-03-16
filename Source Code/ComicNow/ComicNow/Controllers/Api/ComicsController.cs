@@ -24,7 +24,7 @@ namespace ComicNow.Controllers.Api
         }
 
         //GET /api/comics
-        //Get a list of Comic thumbnails
+        //Get a list of active Comic thumbnails
         [HttpGet]
         public IHttpActionResult GetThumbnails()
         {
@@ -41,12 +41,44 @@ namespace ComicNow.Controllers.Api
             return Ok(comics.ToList().Select(Mapper.Map<Comic, ComicThumbnailDto>));
         }
 
+        //GET /api/admin/comics
+        //Get list of all comics as admin
+        [HttpGet]
+        [Route("api/admin/comics")]
+        public IHttpActionResult GetComics()
+        {
+            var comics = Context.Comics;
+
+            if (!comics.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(comics.ToList().Select(Mapper.Map<Comic, LightWeightComicDto>));
+        }
+
         //Get /api/comics/id
-        //Get a Comic based on id
+        //Get an active comic based on id
         [HttpGet]
         public IHttpActionResult GetComic(int id)
         {
-            var comic = Context.Comics.SingleOrDefault(c => c.IsActive);
+            var comic = Context.Comics.SingleOrDefault(c => c.IsActive && c.Id == id);
+
+            if (comic == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(Mapper.Map<Comic, ComicDto>(comic));
+        }
+
+        //GET api/admin/comics/{id}
+        //Get a comic as admin
+        [HttpGet]
+        [Route("api/admin/comics/{id}")]
+        public IHttpActionResult GetComicAsAdmin(int id)
+        {
+            var comic = Context.Comics.SingleOrDefault(c => c.Id == id);
 
             if (comic == null)
             {
@@ -83,13 +115,14 @@ namespace ComicNow.Controllers.Api
                 Status = false,
             };
 
+            //If the admin didn't put any author in the form, this comic will not be associated with any author 
             if (uploadComicDto.Authors.Count > 0)
             {
                 try
                 {
-                    foreach (var author in uploadComicDto.Authors)
+                    foreach (var authorId in uploadComicDto.Authors)
                     {
-                        newComic.Authors.Add(Context.Authors.Single(a => a.Id == author.Id));
+                        newComic.Authors.Add(Context.Authors.Single(a => a.Id == authorId));
                     }
                 }
                 catch (Exception)
@@ -98,13 +131,14 @@ namespace ComicNow.Controllers.Api
                 }
             }
 
+            //If admin didn't put any tag in the form, this comic will not be associated with any tag 
             if (uploadComicDto.Tags.Count > 0)
             {
                 try
                 {
-                    foreach (var tag in uploadComicDto.Tags)
+                    foreach (var tagId in uploadComicDto.Tags)
                     {
-                        newComic.Tags.Add(Context.Tags.Single(t => t.Id == tag.Id));
+                        newComic.Tags.Add(Context.Tags.Single(t => t.Id == tagId));
                     }
                 }
                 catch (Exception)

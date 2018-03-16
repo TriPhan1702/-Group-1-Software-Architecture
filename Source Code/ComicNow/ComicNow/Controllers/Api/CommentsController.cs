@@ -89,9 +89,10 @@ namespace ComicNow.Controllers.Api
                 return Ok(MapComment_CommentDto(comment));
             }
 
-            //PUT /api/comments
+            //PUT /api/comments/edit
             //Edit a comment
             [HttpPut]
+            [Route("api/comments/edit")]
             public IHttpActionResult EditComment(EditCommentDto commentDto)
             {
                 if (!ModelState.IsValid)

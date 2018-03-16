@@ -89,10 +89,10 @@ namespace ComicNow.Controllers.Api
             return Ok(tag.Comics.ToList().Select(Mapper.Map<Comic, ComicThumbnailDto>));
         }
 
-        //POST /api/tags/{tagName}
+        //POST /api/tags/create/{tagName}
         //Add a new Tag
         [HttpPost]
-        [Route("api/tags/{tagName}")]
+        [Route("api/tags/create/{tagName}")]
         public IHttpActionResult CreateTag(string tagName)
         {
             try

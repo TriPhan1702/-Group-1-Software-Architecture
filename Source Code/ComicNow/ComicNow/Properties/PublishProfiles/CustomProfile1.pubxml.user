@@ -269,31 +269,31 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/10/2018 09:45:06</publishTime>
     </File>
     <File Include="Controllers/Api/AccountsController.cs">
-      <publishTime>03/15/2018 23:36:07</publishTime>
+      <publishTime>03/16/2018 18:50:09</publishTime>
     </File>
     <File Include="Controllers/Api/AdminController.cs">
-      <publishTime>03/16/2018 11:29:04</publishTime>
+      <publishTime>03/16/2018 16:21:25</publishTime>
     </File>
     <File Include="Controllers/Api/AuthorsController.cs">
-      <publishTime>03/16/2018 16:04:50</publishTime>
+      <publishTime>03/17/2018 01:29:58</publishTime>
     </File>
     <File Include="Controllers/Api/ChaptersController.cs">
-      <publishTime>03/15/2018 22:50:24</publishTime>
+      <publishTime>03/17/2018 05:40:25</publishTime>
     </File>
     <File Include="Controllers/Api/ComicsController.cs">
-      <publishTime>03/16/2018 11:26:31</publishTime>
+      <publishTime>03/17/2018 02:15:34</publishTime>
     </File>
     <File Include="Controllers/Api/CommentsController.cs">
-      <publishTime>03/16/2018 13:13:44</publishTime>
+      <publishTime>03/17/2018 02:42:32</publishTime>
     </File>
     <File Include="Controllers/Api/PublishersController.cs">
-      <publishTime>03/16/2018 11:11:12</publishTime>
+      <publishTime>03/17/2018 01:29:22</publishTime>
     </File>
     <File Include="Controllers/Api/RolesController.cs">
-      <publishTime>03/15/2018 20:50:18</publishTime>
+      <publishTime>03/16/2018 15:45:24</publishTime>
     </File>
     <File Include="Controllers/Api/TagsController.cs">
-      <publishTime>03/15/2018 20:50:11</publishTime>
+      <publishTime>03/17/2018 01:28:58</publishTime>
     </File>
     <File Include="Controllers/HomeController.cs">
       <publishTime>03/10/2018 09:45:06</publishTime>
@@ -314,10 +314,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/12/2018 23:51:15</publishTime>
     </File>
     <File Include="DTOs/Chapter/ChapterDto.cs">
-      <publishTime>03/13/2018 16:50:46</publishTime>
+      <publishTime>03/17/2018 02:48:09</publishTime>
+    </File>
+    <File Include="DTOs/Chapter/EditChapterDto.cs">
+      <publishTime>03/17/2018 02:59:26</publishTime>
+    </File>
+    <File Include="DTOs/Chapter/LightWeightChapterDto.cs">
+      <publishTime>03/17/2018 02:23:00</publishTime>
     </File>
     <File Include="DTOs/Chapter/UploadChapterDto.cs">
-      <publishTime>03/14/2018 16:35:41</publishTime>
+      <publishTime>03/17/2018 02:32:19</publishTime>
     </File>
     <File Include="DTOs/Comic/ComicDto.cs">
       <publishTime>03/13/2018 17:18:57</publishTime>
@@ -328,11 +334,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="DTOs/Comic/ComicWithCommentListDto.cs">
       <publishTime>03/16/2018 11:36:49</publishTime>
     </File>
+    <File Include="DTOs/Comic/LightWeightComicDto.cs">
+      <publishTime>03/17/2018 02:14:25</publishTime>
+    </File>
     <File Include="DTOs/Comic/UploadComicDto.cs">
-      <publishTime>03/13/2018 15:13:03</publishTime>
+      <publishTime>03/17/2018 01:31:48</publishTime>
     </File>
     <File Include="DTOs/Comment/CommentDto.cs">
-      <publishTime>03/16/2018 11:49:35</publishTime>
+      <publishTime>03/16/2018 14:04:08</publishTime>
     </File>
     <File Include="DTOs/Comment/EditCommentDto.cs">
       <publishTime>03/15/2018 21:40:53</publishTime>
@@ -343,8 +352,20 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="DTOs/FavoriteDto.cs">
       <publishTime>03/15/2018 22:42:41</publishTime>
     </File>
+    <File Include="DTOs/Page/ChangePositionPageDto.cs">
+      <publishTime>03/17/2018 04:02:54</publishTime>
+    </File>
     <File Include="DTOs/Page/PageDto.cs">
-      <publishTime>03/14/2018 15:39:13</publishTime>
+      <publishTime>03/17/2018 03:12:55</publishTime>
+    </File>
+    <File Include="DTOs/Page/UploadLightweightPagesDto.cs">
+      <publishTime>03/17/2018 03:23:23</publishTime>
+    </File>
+    <File Include="DTOs/Page/UploadMultiplePagesDto.cs">
+      <publishTime>03/17/2018 03:25:22</publishTime>
+    </File>
+    <File Include="DTOs/Page/UploadPageDto.cs">
+      <publishTime>03/17/2018 03:25:27</publishTime>
     </File>
     <File Include="DTOs/PublisherDto.cs">
       <publishTime>03/12/2018 23:50:32</publishTime>

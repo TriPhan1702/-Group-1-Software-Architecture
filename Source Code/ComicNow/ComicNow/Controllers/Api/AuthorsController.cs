@@ -20,6 +20,7 @@ namespace ComicNow.Controllers.Api
         //GET api/authors
         //Get all of the authors in the database
         [HttpGet]
+        [Route("api/authors")]
         public IHttpActionResult GetAuthors()
         {
             var authors = Context.Authors;
@@ -48,10 +49,10 @@ namespace ComicNow.Controllers.Api
             return Ok(author.Comics.ToList().Select(Mapper.Map<Comic, ComicThumbnailDto>));
         }
 
-        //POST api/authors/{authorName}
+        //POST api/authors/create/{authorName}
         //Add a new Author
         [HttpPost]
-        [Route("api/authors/{authorName}")]
+        [Route("api/authors/create/{authorName}")]
         public IHttpActionResult CreateAuthor(string authorName)
         {
             try
