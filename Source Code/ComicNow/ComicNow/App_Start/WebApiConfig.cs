@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Web.Cors;
+using System.Web.Http.Cors;
 
 namespace ComicNow
 {
@@ -11,6 +13,8 @@ namespace ComicNow
     {
         public static void Register(HttpConfiguration config)
         {
+           config.EnableCors(new EnableCorsAttribute("*", "*", "*", "*"));
+
             var setting = config.Formatters.JsonFormatter.SerializerSettings;
             setting.ContractResolver = new CamelCasePropertyNamesContractResolver();
             setting.Formatting = Formatting.Indented;

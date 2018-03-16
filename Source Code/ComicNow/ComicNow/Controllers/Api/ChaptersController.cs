@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using AutoMapper;
 using ComicNow.DTOs.Chapter;
 using ComicNow.DTOs.Page;
@@ -11,6 +12,7 @@ using ComicNow.Models;
 
 namespace ComicNow.Controllers.Api
 {
+    [AllowCrossSiteJson]
     public class ChaptersController : ApiController
     {
         public ComicNowEntities Context;
@@ -63,6 +65,13 @@ namespace ComicNow.Controllers.Api
         {
             var chapter = Context.Chapters.SingleOrDefault(c => c.Id == chapterId && c.IsActive);
             if (chapter == null)
+            {
+                return NotFound();
+            }
+
+            var pages = chapter.Pages;
+
+            if (!pages.Any())
             {
                 return NotFound();
             }
@@ -130,6 +139,25 @@ namespace ComicNow.Controllers.Api
             {
                 return Conflict();
             }
+        }
+
+        //PUT /api/chapters/changeChapterStatus/id
+        //Activate/Deactivate a Chapter
+        [HttpPut]
+        [Route("api/chapters/changeChapterStatus/{id}")]
+        public IHttpActionResult ChangeChapterStatus(int id)
+        {
+            var chapter = Context.Chapters.SingleOrDefault(c => c.Id == id);
+
+            if (chapter == null)
+            {
+                return NotFound();
+            }
+
+            chapter.IsActive = !chapter.IsActive;
+            Context.SaveChanges();
+
+            return Ok(Mapper.Map<Chapter, ChapterDto>(chapter)); ;
         }
     }
 }

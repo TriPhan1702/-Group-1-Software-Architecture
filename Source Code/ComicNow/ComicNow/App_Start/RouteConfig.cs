@@ -12,9 +12,11 @@ namespace ComicNow
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            
+
             HttpConfiguration config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
-
+            config.EnableCors();
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(

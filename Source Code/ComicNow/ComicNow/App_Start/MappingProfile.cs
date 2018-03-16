@@ -29,7 +29,7 @@ namespace ComicNow
 
             Mapper.CreateMap<Comic, ComicThumbnailDto>().ReverseMap();
 
-            Mapper.CreateMap<Comment, ComicDto>().ReverseMap();
+            Mapper.CreateMap<Comment, CommentDto>().ReverseMap();
 
             Mapper.CreateMap<Comic, ComicWithCommentListDto>().ReverseMap();
 
@@ -38,6 +38,8 @@ namespace ComicNow
             Mapper.CreateMap<Chapter, ChapterDto>().ReverseMap();
 
             Mapper.CreateMap<Page, PageDto>().ReverseMap();
+
+            Mapper.CreateMap<Role, RoleDto>().ReverseMap();
         }
     }
 }

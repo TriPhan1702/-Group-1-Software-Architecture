@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
-using ComicNow.DTOs;
 using ComicNow.DTOs.Account;
 using ComicNow.Models;
 
 namespace ComicNow.Controllers.Api
 {
+    [AllowCrossSiteJson]
     public class AccountsController : ApiController
     {
         public ComicNowEntities Context;
@@ -20,7 +18,7 @@ namespace ComicNow.Controllers.Api
             Context = new ComicNowEntities();
         }
         
-        //Return list of all account
+        //Return list of all active user account
         // GET /api/accounts
         public IHttpActionResult GetAccounts()
         {
@@ -34,6 +32,19 @@ namespace ComicNow.Controllers.Api
             }
 
             return NotFound();
+        }
+
+        //Return a list of all accounts as admin
+        //GET /api/admin/accounts
+        public IHttpActionResult GetAccountAdmin()
+        {
+            var accounts = Context.Accounts;
+            if (!accounts.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(accounts.ToList().Select(Mapper.Map<Account, AccountDto>));
         }
 
         //Return a AccountDto
@@ -99,6 +110,25 @@ namespace ComicNow.Controllers.Api
             {
                 return NotFound();
             }
+
+            return Ok(Mapper.Map<Account, AccountDto>(account));
+        }
+
+        //PUT /api/accounts/changeAccountStatus/id
+        //Activate/Deactivate an Account
+        [HttpPut]
+        [Route("api/accounts/changeAccountStatus/{id}")]
+        public IHttpActionResult ChangeAccountStatus(int id)
+        {
+            var account = Context.Accounts.SingleOrDefault(a => a.Id == id);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            account.IsActive = !account.IsActive;
+            Context.SaveChanges();
 
             return Ok(Mapper.Map<Account, AccountDto>(account));
         }

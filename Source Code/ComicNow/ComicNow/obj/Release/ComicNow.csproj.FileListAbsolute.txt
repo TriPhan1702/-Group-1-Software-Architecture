@@ -52,3 +52,6 @@ C:\Users\Batman\source\repos\ComicNow\ComicNow\obj\Release\ComicNow.csproj.CoreC
 C:\Users\Batman\source\repos\ComicNow\ComicNow\obj\Release\ComicNow.dll
 C:\Users\Batman\source\repos\ComicNow\ComicNow\obj\Release\ComicNow.pdb
 C:\Users\Batman\source\repos\ComicNow\ComicNow\obj\Release\ComicNow.csprojResolveAssemblyReference.cache
+C:\Users\Batman\source\repos\ComicNow\ComicNow\bin\System.Web.Cors.dll
+C:\Users\Batman\source\repos\ComicNow\ComicNow\bin\System.Web.Http.Cors.dll
+C:\Users\Batman\source\repos\ComicNow\ComicNow\bin\System.Web.Http.Cors.xml
