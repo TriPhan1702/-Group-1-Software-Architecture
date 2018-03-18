@@ -4,26 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6e158fad072e4e45ab33179b1d678bd6" Name="Diagram1">
+      <Diagram DiagramId="b95944bdd80a4ab38fe54914154433c4" Name="Diagram1">
         <EntityTypeShape EntityType="ComicNowModel.Account" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ComicNowModel.Author" Width="1.5" PointX="3" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ComicNowModel.Chapter" Width="1.5" PointX="7.5" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ComicNowModel.Comic" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ComicNowModel.Comment" Width="1.5" PointX="7.5" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ComicNowModel.Page" Width="1.5" PointX="9.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ComicNowModel.Publisher" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ComicNowModel.Chapter" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ComicNowModel.Comic" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ComicNowModel.Comment" Width="1.5" PointX="7.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ComicNowModel.Page" Width="1.5" PointX="9.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ComicNowModel.Publisher" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ComicNowModel.RatingList" Width="1.5" PointX="10.5" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ComicNowModel.Role" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ComicNowModel.Tag" Width="1.5" PointX="7.5" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ComicNowModel.Role" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ComicNowModel.Tag" Width="1.5" PointX="7.5" PointY="10.375" IsExpanded="true" />
         <AssociationConnector Association="ComicNowModel.FK_Accounts_Roles" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.FK_Comments_Accounts" ManuallyRouted="false" />
-        <AssociationConnector Association="ComicNowModel.FK_RatingList_Accounts" ManuallyRouted="false" />
+        <AssociationConnector Association="ComicNowModel.FK_RatingList_Accounts1" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.FK_Chapters_Comic" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.FK_Pages_Chapters" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.FK_Comic_Publishers" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.FK_Comments_Comic" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.FK_Pages_Comic" ManuallyRouted="false" />
-        <AssociationConnector Association="ComicNowModel.FK_RatingList_Comic" ManuallyRouted="false" />
+        <AssociationConnector Association="ComicNowModel.FK_RatingList_Comic1" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.Author_Comic_List" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.FavoriteList" ManuallyRouted="false" />
         <AssociationConnector Association="ComicNowModel.TagList" ManuallyRouted="false" />

@@ -212,7 +212,8 @@
     <Compile Include="DTOs\Page\UploadMultiplePagesDto.cs" />
     <Compile Include="DTOs\PublisherDto.cs" />
     <Compile Include="DTOs\Account\RegisterAccountDto.cs" />
-    <Compile Include="DTOs\RatingDto.cs" />
+    <Compile Include="DTOs\Rating\RatingDto.cs" />
+    <Compile Include="DTOs\Rating\UploadRatingDto.cs" />
     <Compile Include="DTOs\RoleDto.cs" />
     <Compile Include="DTOs\TagDto.cs" />
     <Compile Include="DTOs\Comic\UploadComicDto.cs" />

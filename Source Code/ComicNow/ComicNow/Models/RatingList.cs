@@ -14,6 +14,7 @@ namespace ComicNow.Models
     
     public partial class RatingList
     {
+        public int Id { get; set; }
         public int AccountId { get; set; }
         public int ComicId { get; set; }
         public double Rating { get; set; }

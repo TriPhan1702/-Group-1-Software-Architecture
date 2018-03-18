@@ -103,9 +103,9 @@
         </EntityType>
         <EntityType Name="RatingList">
           <Key>
-            <PropertyRef Name="AccountId" />
-            <PropertyRef Name="ComicId" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AccountId" Type="int" Nullable="false" />
           <Property Name="ComicId" Type="int" Nullable="false" />
           <Property Name="Rating" Type="float" Nullable="false" />
@@ -264,7 +264,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RatingList_Accounts">
+        <Association Name="FK_RatingList_Accounts1">
           <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
           <End Role="RatingList" Type="Self.RatingList" Multiplicity="*" />
           <ReferentialConstraint>
@@ -276,7 +276,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RatingList_Comic">
+        <Association Name="FK_RatingList_Comic1">
           <End Role="Comic" Type="Self.Comic" Multiplicity="1" />
           <End Role="RatingList" Type="Self.RatingList" Multiplicity="*" />
           <ReferentialConstraint>
@@ -284,7 +284,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="RatingList">
-              <PropertyRef Name="AccountId" />
+              <PropertyRef Name="ComicId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -370,11 +370,11 @@
             <End Role="Comic" EntitySet="Comic" />
             <End Role="Pages" EntitySet="Pages" />
           </AssociationSet>
-          <AssociationSet Name="FK_RatingList_Accounts" Association="Self.FK_RatingList_Accounts">
+          <AssociationSet Name="FK_RatingList_Accounts1" Association="Self.FK_RatingList_Accounts1">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="RatingList" EntitySet="RatingList" />
           </AssociationSet>
-          <AssociationSet Name="FK_RatingList_Comic" Association="Self.FK_RatingList_Comic">
+          <AssociationSet Name="FK_RatingList_Comic1" Association="Self.FK_RatingList_Comic1">
             <End Role="Comic" EntitySet="Comic" />
             <End Role="RatingList" EntitySet="RatingList" />
           </AssociationSet>
@@ -404,7 +404,7 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Role" Relationship="Self.FK_Accounts_Roles" FromRole="Accounts" ToRole="Roles" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Accounts" FromRole="Accounts" ToRole="Comments" />
-          <NavigationProperty Name="RatingLists" Relationship="Self.FK_RatingList_Accounts" FromRole="Accounts" ToRole="RatingList" />
+          <NavigationProperty Name="RatingLists" Relationship="Self.FK_RatingList_Accounts1" FromRole="Accounts" ToRole="RatingList" />
           <NavigationProperty Name="Comics" Relationship="Self.FavoriteList" FromRole="Accounts" ToRole="Comic" />
         </EntityType>
         <EntityType Name="Author">
@@ -452,7 +452,7 @@
           <NavigationProperty Name="Publisher" Relationship="Self.FK_Comic_Publishers" FromRole="Comic" ToRole="Publishers" />
           <NavigationProperty Name="Comments" Relationship="Self.FK_Comments_Comic" FromRole="Comic" ToRole="Comments" />
           <NavigationProperty Name="Pages" Relationship="Self.FK_Pages_Comic" FromRole="Comic" ToRole="Pages" />
-          <NavigationProperty Name="RatingLists" Relationship="Self.FK_RatingList_Comic" FromRole="Comic" ToRole="RatingList" />
+          <NavigationProperty Name="RatingLists" Relationship="Self.FK_RatingList_Comic1" FromRole="Comic" ToRole="RatingList" />
           <NavigationProperty Name="Authors" Relationship="Self.Author_Comic_List" FromRole="Comic" ToRole="Authors" />
           <NavigationProperty Name="Accounts" Relationship="Self.FavoriteList" FromRole="Comic" ToRole="Accounts" />
           <NavigationProperty Name="Tags" Relationship="Self.TagList" FromRole="Comic" ToRole="Tags" />
@@ -494,14 +494,14 @@
         </EntityType>
         <EntityType Name="RatingList">
           <Key>
-            <PropertyRef Name="AccountId" />
-            <PropertyRef Name="ComicId" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountId" Type="Int32" Nullable="false" />
           <Property Name="ComicId" Type="Int32" Nullable="false" />
           <Property Name="Rating" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Account" Relationship="Self.FK_RatingList_Accounts" FromRole="RatingList" ToRole="Accounts" />
-          <NavigationProperty Name="Comic" Relationship="Self.FK_RatingList_Comic" FromRole="RatingList" ToRole="Comic" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_RatingList_Accounts1" FromRole="RatingList" ToRole="Accounts" />
+          <NavigationProperty Name="Comic" Relationship="Self.FK_RatingList_Comic1" FromRole="RatingList" ToRole="Comic" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -543,7 +543,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RatingList_Accounts">
+        <Association Name="FK_RatingList_Accounts1">
           <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
           <End Role="RatingList" Type="Self.RatingList" Multiplicity="*" />
           <ReferentialConstraint>
@@ -615,7 +615,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RatingList_Comic">
+        <Association Name="FK_RatingList_Comic1">
           <End Role="Comic" Type="Self.Comic" Multiplicity="1" />
           <End Role="RatingList" Type="Self.RatingList" Multiplicity="*" />
           <ReferentialConstraint>
@@ -623,7 +623,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="RatingList">
-              <PropertyRef Name="AccountId" />
+              <PropertyRef Name="ComicId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -658,7 +658,7 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK_RatingList_Accounts" Association="Self.FK_RatingList_Accounts">
+          <AssociationSet Name="FK_RatingList_Accounts1" Association="Self.FK_RatingList_Accounts1">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="RatingList" EntitySet="RatingLists" />
           </AssociationSet>
@@ -682,7 +682,7 @@
             <End Role="Comic" EntitySet="Comics" />
             <End Role="Pages" EntitySet="Pages" />
           </AssociationSet>
-          <AssociationSet Name="FK_RatingList_Comic" Association="Self.FK_RatingList_Comic">
+          <AssociationSet Name="FK_RatingList_Comic1" Association="Self.FK_RatingList_Comic1">
             <End Role="Comic" EntitySet="Comics" />
             <End Role="RatingList" EntitySet="RatingLists" />
           </AssociationSet>
@@ -795,6 +795,7 @@
           <EntitySetMapping Name="RatingLists">
             <EntityTypeMapping TypeName="ComicNowModel.RatingList">
               <MappingFragment StoreEntitySet="RatingList">
+                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="ComicId" ColumnName="ComicId" />
                 <ScalarProperty Name="Rating" ColumnName="Rating" />

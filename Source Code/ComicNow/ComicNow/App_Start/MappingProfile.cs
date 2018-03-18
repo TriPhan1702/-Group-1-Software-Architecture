@@ -5,6 +5,7 @@ using ComicNow.DTOs.Chapter;
 using ComicNow.DTOs.Comic;
 using ComicNow.DTOs.Comment;
 using ComicNow.DTOs.Page;
+using ComicNow.DTOs.Rating;
 using ComicNow.Models;
 
 namespace ComicNow
@@ -40,6 +41,9 @@ namespace ComicNow
             Mapper.CreateMap<Page, PageDto>().ReverseMap();
 
             Mapper.CreateMap<Role, RoleDto>().ReverseMap();
+
+            Mapper.CreateMap<RatingList, RatingDto>();
+
         }
     }
 }

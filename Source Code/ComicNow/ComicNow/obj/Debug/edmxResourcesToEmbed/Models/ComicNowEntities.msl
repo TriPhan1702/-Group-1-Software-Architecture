@@ -91,6 +91,7 @@
     <EntitySetMapping Name="RatingLists">
       <EntityTypeMapping TypeName="ComicNowModel.RatingList">
         <MappingFragment StoreEntitySet="RatingList">
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="AccountId" ColumnName="AccountId" />
           <ScalarProperty Name="ComicId" ColumnName="ComicId" />
           <ScalarProperty Name="Rating" ColumnName="Rating" />

@@ -4,6 +4,7 @@ using System.Web.Http;
 using AutoMapper;
 using ComicNow.DTOs;
 using ComicNow.DTOs.Comic;
+using ComicNow.DTOs.Rating;
 using ComicNow.Models;
 
 namespace ComicNow.Controllers.Api
@@ -215,41 +216,46 @@ namespace ComicNow.Controllers.Api
         //Rate a comic
         [HttpPost]
         [Route("api/comics/rate")]
-        public IHttpActionResult RateComic(RatingDto ratingDto)
+        public IHttpActionResult RateComic(UploadRatingDto uploadRatingDto)
         {
-            var comic = Context.Comics.SingleOrDefault(c => c.IsActive && c.Id == ratingDto.ComicId);
+            var comic = Context.Comics.SingleOrDefault(c => c.IsActive && c.Id == uploadRatingDto.ComicId);
             if (comic == null) return NotFound();
 
-            var account = Context.Accounts.SingleOrDefault(a => a.IsActive && a.Id == ratingDto.AccountId);
-            if (account == null) NotFound();
+            var account = Context.Accounts.SingleOrDefault(a => a.IsActive && a.Id == uploadRatingDto.AccountId);
+            if (account == null) return NotFound();
 
-            var rating = Context.RatingLists.SingleOrDefault(r =>
-                r.AccountId == ratingDto.AccountId && r.ComicId == ratingDto.ComicId);
+            var rating = account.RatingLists.SingleOrDefault(r =>
+                r.AccountId == uploadRatingDto.AccountId && r.ComicId == uploadRatingDto.ComicId);
 
-            //For when account already rated this comic, delete rating then add again below
+            //For when account already rated this comic, reset rating then add again below
             if (rating != null)
-                try
+            {
+                //For when there was only one person that rated this, simply return the point to zero
+                if (comic.TimeRated == 1)
                 {
-                    comic.Rating = (comic.Rating * comic.TimeRated - ratingDto.Rating) / --comic.TimeRated;
-                    Context.RatingLists.Remove(rating);
-                    Context.SaveChanges();
+                    comic.Rating = 0;
+                    comic.TimeRated = 0;
                 }
-                catch (Exception)
+                else
                 {
-                    return Conflict();
+                    comic.Rating = ((comic.Rating * comic.TimeRated - rating.Rating) / --comic.TimeRated);
                 }
+            }
 
-            comic.Rating = (comic.Rating * comic.TimeRated + ratingDto.Rating) / ++comic.TimeRated;
             try
             {
-                Context.RatingLists.Add(new RatingList
+                var newRating = new RatingList()
                 {
-                    AccountId = ratingDto.AccountId,
-                    ComicId = ratingDto.ComicId,
-                    Rating = ratingDto.Rating
-                });
+                    ComicId = comic.Id,
+                    AccountId = account.Id,
+                    Rating = uploadRatingDto.Rating
+                };
+
+                Context.RatingLists.Add(newRating);
+
+                comic.Rating = (comic.Rating * comic.TimeRated + newRating.Rating) / ++comic.TimeRated;
                 Context.SaveChanges();
-                return Ok(ratingDto);
+                return Ok(Mapper.Map<RatingList, RatingDto>(newRating));
             }
             catch (Exception)
             {
@@ -312,6 +318,7 @@ namespace ComicNow.Controllers.Api
             try
             {
                 account.Comics.Remove(comic);
+                Context.SaveChanges();
                 return Ok();
             }
             catch (Exception)

@@ -98,9 +98,9 @@
   </EntityType>
   <EntityType Name="RatingList">
     <Key>
-      <PropertyRef Name="AccountId" />
-      <PropertyRef Name="ComicId" />
+      <PropertyRef Name="Id" />
     </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="AccountId" Type="int" Nullable="false" />
     <Property Name="ComicId" Type="int" Nullable="false" />
     <Property Name="Rating" Type="float" Nullable="false" />
@@ -259,7 +259,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_RatingList_Accounts">
+  <Association Name="FK_RatingList_Accounts1">
     <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
     <End Role="RatingList" Type="Self.RatingList" Multiplicity="*" />
     <ReferentialConstraint>
@@ -271,7 +271,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_RatingList_Comic">
+  <Association Name="FK_RatingList_Comic1">
     <End Role="Comic" Type="Self.Comic" Multiplicity="1" />
     <End Role="RatingList" Type="Self.RatingList" Multiplicity="*" />
     <ReferentialConstraint>
@@ -279,7 +279,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="RatingList">
-        <PropertyRef Name="AccountId" />
+        <PropertyRef Name="ComicId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -365,11 +365,11 @@
       <End Role="Comic" EntitySet="Comic" />
       <End Role="Pages" EntitySet="Pages" />
     </AssociationSet>
-    <AssociationSet Name="FK_RatingList_Accounts" Association="Self.FK_RatingList_Accounts">
+    <AssociationSet Name="FK_RatingList_Accounts1" Association="Self.FK_RatingList_Accounts1">
       <End Role="Accounts" EntitySet="Accounts" />
       <End Role="RatingList" EntitySet="RatingList" />
     </AssociationSet>
-    <AssociationSet Name="FK_RatingList_Comic" Association="Self.FK_RatingList_Comic">
+    <AssociationSet Name="FK_RatingList_Comic1" Association="Self.FK_RatingList_Comic1">
       <End Role="Comic" EntitySet="Comic" />
       <End Role="RatingList" EntitySet="RatingList" />
     </AssociationSet>

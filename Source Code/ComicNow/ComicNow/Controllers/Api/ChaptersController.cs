@@ -40,6 +40,7 @@ namespace ComicNow.Controllers.Api
         //GET /api/chapters/chapterId/pageNumber
         //Get a page with the chapterId and the page's number (not pageId)
         [HttpGet]
+        [Route("api/chapters/{chapterId}/{pageNumber}")]
         public IHttpActionResult GetPage(int chapterId, int pageNumber)
         {
             var chapter = Context.Chapters.SingleOrDefault(c => c.Id == chapterId && c.IsActive);
@@ -282,14 +283,25 @@ namespace ComicNow.Controllers.Api
                 pagesInRange = (from p in page.Chapter.Pages where p.PageNumber < destinationPosition && p.PageNumber >= page.PageNumber select p).ToList();
             }
 
-            page.PageNumber = destinationPosition;
             if (pagesInRange.Count > 0)
             {
+                
                 foreach (var p in pagesInRange)
                 {
                     p.PageNumber += operation;
                 }
             }
+            else
+            {
+                var desPage = page.Chapter.Pages.SingleOrDefault(p => p.PageNumber == destinationPosition);
+                if (desPage == null)
+                {
+                    return NotFound();
+                }
+
+                desPage.PageNumber = page.PageNumber;
+            }
+            page.PageNumber = destinationPosition;
 
             try
             {
@@ -315,24 +327,21 @@ namespace ComicNow.Controllers.Api
             }
 
             var chapter = page.Chapter;
+            if (chapter == null)
+            {
+                return NotFound();
+            }
 
             var pagesInRange = from p in chapter.Pages where p.PageNumber > page.PageNumber select p;
-
-            try
-            {
+            
                 foreach (var p in pagesInRange)
                 {
                     p.PageNumber -= 1;
                 }
 
-                chapter.Pages.Remove(page);
+                Context.Pages.Remove(page);
                 Context.SaveChanges();
                 return Ok();
-            }
-            catch (Exception)
-            {
-                return Conflict();
-            }
         }
     }
 }
