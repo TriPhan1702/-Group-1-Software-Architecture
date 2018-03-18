@@ -200,6 +200,7 @@
     <Compile Include="DTOs\Comic\ComicDto.cs" />
     <Compile Include="DTOs\Comic\ComicThumbnailDto.cs" />
     <Compile Include="DTOs\Account\LoginAccountDto.cs" />
+    <Compile Include="DTOs\Comic\EditComicDto.cs" />
     <Compile Include="DTOs\Comic\LightWeightComicDto.cs" />
     <Compile Include="DTOs\Comment\CommentDto.cs" />
     <Compile Include="DTOs\Comment\EditCommentDto.cs" />

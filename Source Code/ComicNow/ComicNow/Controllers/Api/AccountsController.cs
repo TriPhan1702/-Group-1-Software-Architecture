@@ -36,6 +36,8 @@ namespace ComicNow.Controllers.Api
 
         //Return a list of all accounts as admin
         //GET /api/admin/accounts
+        [HttpGet]
+        [Route("api/admin/accounts")]
         public IHttpActionResult GetAccountAdmin()
         {
             var accounts = Context.Accounts;

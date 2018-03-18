@@ -23,10 +23,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/10/2018 09:45:25</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>03/16/2018 15:55:15</publishTime>
+      <publishTime>03/18/2018 02:25:36</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>03/16/2018 15:55:15</publishTime>
+      <publishTime>03/18/2018 02:25:36</publishTime>
     </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>10/22/2015 01:39:56</publishTime>
@@ -35,10 +35,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/21/2017 23:12:22</publishTime>
     </File>
     <File Include="bin/ComicNow.dll">
-      <publishTime>03/16/2018 15:55:00</publishTime>
+      <publishTime>03/18/2018 02:17:56</publishTime>
     </File>
     <File Include="bin/ComicNow.pdb">
-      <publishTime>03/16/2018 15:55:00</publishTime>
+      <publishTime>03/18/2018 02:17:56</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>01/04/2017 00:44:16</publishTime>
@@ -269,7 +269,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/10/2018 09:45:06</publishTime>
     </File>
     <File Include="Controllers/Api/AccountsController.cs">
-      <publishTime>03/16/2018 18:50:09</publishTime>
+      <publishTime>03/18/2018 01:26:27</publishTime>
     </File>
     <File Include="Controllers/Api/AdminController.cs">
       <publishTime>03/16/2018 16:21:25</publishTime>
@@ -281,7 +281,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/17/2018 05:40:25</publishTime>
     </File>
     <File Include="Controllers/Api/ComicsController.cs">
-      <publishTime>03/17/2018 02:15:34</publishTime>
+      <publishTime>03/18/2018 01:30:58</publishTime>
     </File>
     <File Include="Controllers/Api/CommentsController.cs">
       <publishTime>03/17/2018 02:42:32</publishTime>
@@ -317,7 +317,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/17/2018 02:48:09</publishTime>
     </File>
     <File Include="DTOs/Chapter/EditChapterDto.cs">
-      <publishTime>03/17/2018 02:59:26</publishTime>
+      <publishTime>03/17/2018 11:57:36</publishTime>
     </File>
     <File Include="DTOs/Chapter/LightWeightChapterDto.cs">
       <publishTime>03/17/2018 02:23:00</publishTime>
@@ -333,6 +333,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="DTOs/Comic/ComicWithCommentListDto.cs">
       <publishTime>03/16/2018 11:36:49</publishTime>
+    </File>
+    <File Include="DTOs/Comic/EditComicDto.cs">
+      <publishTime>03/17/2018 12:48:54</publishTime>
     </File>
     <File Include="DTOs/Comic/LightWeightComicDto.cs">
       <publishTime>03/17/2018 02:14:25</publishTime>
@@ -398,7 +401,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/15/2018 05:03:35</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>03/16/2018 15:55:06</publishTime>
+      <publishTime>03/18/2018 02:25:27</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>03/10/2018 09:45:14</publishTime>
