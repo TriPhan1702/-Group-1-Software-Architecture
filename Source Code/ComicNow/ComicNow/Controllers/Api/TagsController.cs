@@ -7,18 +7,23 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using AutoMapper;
 using ComicNow.DTOs;
+using ComicNow.DTOs.Comic;
 using ComicNow.Models;
+using ComicNow.Services;
 
 namespace ComicNow.Controllers.Api
 {
     [AllowCrossSiteJson]
     public class TagsController : ApiController
     {
-        public ComicNowEntities Context;
+        public TagServices TagServices;
+
+        public ComicServices ComicServices;
 
         public TagsController()
         {
-            Context = new ComicNowEntities();
+            TagServices = new TagServices();
+            ComicServices = new ComicServices();
         }
 
         //GET api/tags
@@ -26,14 +31,14 @@ namespace ComicNow.Controllers.Api
         [HttpGet]
         public IHttpActionResult GetTags()
         {
-            var tags =  Context.Tags;
+            var tags =  TagServices.GetAllTags();
 
             if (!tags.Any())
             {
                 return NotFound();
             }
 
-            return Ok(tags.ToList().Select(Mapper.Map<Tag, TagDto>));
+            return Ok(tags.Select(Mapper.Map<Tag, TagDto>));
         }
 
         //GET api/tags/comicId
@@ -41,20 +46,21 @@ namespace ComicNow.Controllers.Api
         [HttpGet]
         public IHttpActionResult GetComicTag(int comicId)
         {
-            var comic = Context.Comics.SingleOrDefault(c => c.Id == comicId);
+            var comic = ComicServices.GetActiveComicById(comicId);
 
             if (comic == null)
             {
                 return NotFound();
             }
 
-            var tags = (from t in comic.Tags select t).ToList();
+            var tags = TagServices.FindTagsOfAComic(comic);
+
             if (!tags.Any())
             {
                 return NotFound();
             }
 
-            return Ok(tags);
+            return Ok(tags.Select(Mapper.Map<Tag, TagDto>));
         }
 
         //Get api/tags/search/{searchValue}
@@ -63,30 +69,34 @@ namespace ComicNow.Controllers.Api
         [Route("api/tags/search/{searchValue}")]
         public IHttpActionResult SearchTag(string searchValue)
         {
-            var tags = from t in Context.Tags
-                where t.Name.Trim().ToLower().Contains(searchValue.Trim().ToLower())
-                select t;
+            var tags = TagServices.FindTagByString(searchValue);
 
             if (!tags.Any())
             {
                 return NotFound();
             }
 
-            return Ok(tags.ToList().Select(Mapper.Map<Tag, TagDto>));
+            return Ok(tags.Select(Mapper.Map<Tag, TagDto>));
         }
 
         [HttpGet]
         [Route("api/tags/{tagId}/findComics")]
         public IHttpActionResult SearchComicByTag(int tagId)
         {
-            var tag = Context.Tags.SingleOrDefault(t => t.Id == tagId);
+            var tag = TagServices.GetTagById(tagId);
 
-            if (tag == null || !tag.Comics.Any())
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return Ok(tag.Comics.ToList().Select(Mapper.Map<Comic, ComicThumbnailDto>));
+            var comics = ComicServices.SearchComicByTag(tag);
+            if (!comics.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(comics.Select(Mapper.Map<Comic, ComicThumbnailDto>));
         }
 
         //POST /api/tags/create/{tagName}
@@ -95,21 +105,14 @@ namespace ComicNow.Controllers.Api
         [Route("api/tags/create/{tagName}")]
         public IHttpActionResult CreateTag(string tagName)
         {
-            try
-            {
-                var newTag = new Tag()
-                {
-                    Name = tagName
-                };
-                Context.Tags.Add(newTag);
-                Context.SaveChanges();
+            var newTag = TagServices.CreateTag(tagName);
 
-                return Created(new Uri(Request.RequestUri + "/" + newTag.Id), Mapper.Map<Tag, TagDto>(newTag));
-            }
-            catch (Exception)
+            if (newTag == null)
             {
                 return Conflict();
             }
+
+            return Created(new Uri(Request.RequestUri + "/" + TagServices.GetTagId(newTag)), Mapper.Map<Tag,TagDto>(newTag));
         }
     }
 }

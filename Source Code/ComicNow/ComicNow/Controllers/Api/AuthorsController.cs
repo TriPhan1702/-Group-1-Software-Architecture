@@ -3,18 +3,22 @@ using System.Linq;
 using System.Web.Http;
 using AutoMapper;
 using ComicNow.DTOs;
+using ComicNow.DTOs.Comic;
 using ComicNow.Models;
+using ComicNow.Services;
 
 namespace ComicNow.Controllers.Api
 {
     [AllowCrossSiteJson]
     public class AuthorsController : ApiController
     {
-        public ComicNowEntities Context;
+        public AuthorServices AuthorServices;
+        public ComicServices ComicServices;
 
         public AuthorsController()
         {
-            Context = new ComicNowEntities();
+            AuthorServices = new AuthorServices();
+            ComicServices = new ComicServices();
         }
 
         //GET api/authors
@@ -23,7 +27,7 @@ namespace ComicNow.Controllers.Api
         [Route("api/authors")]
         public IHttpActionResult GetAuthors()
         {
-            var authors = Context.Authors;
+            var authors = AuthorServices.GetAllAuthors();
 
             if (!authors.Any())
             {
@@ -39,14 +43,21 @@ namespace ComicNow.Controllers.Api
         [Route("api/authors/{authorId}/findComics")]
         public IHttpActionResult SearchComicByAuthor(int authorId)
         {
-            var author = Context.Authors.SingleOrDefault(t => t.Id == authorId);
+            var author = AuthorServices.GetAuthorById(authorId);
 
-            if (author == null || !author.Comics.Any())
+            if (author == null)
             {
                 return NotFound();
             }
 
-            return Ok(author.Comics.ToList().Select(Mapper.Map<Comic, ComicThumbnailDto>));
+            var comics = ComicServices.SearchComicByAuthor(author);
+
+            if (!comics.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(comics.Select(Mapper.Map<Comic, ComicThumbnailDto>));
         }
 
         //POST api/authors/create/{authorName}
@@ -55,21 +66,14 @@ namespace ComicNow.Controllers.Api
         [Route("api/authors/create/{authorName}")]
         public IHttpActionResult CreateAuthor(string authorName)
         {
-            try
-            {
-                var newAuthor = new Author()
+                var newAuthor = AuthorServices.CreateNewAuthor(authorName);
+
+                if (newAuthor == null)
                 {
-                    Name = authorName
-                };
-                Context.Authors.Add(newAuthor);
-                Context.SaveChanges();
+                    return Conflict();
+                }
 
                 return Created(new Uri(Request.RequestUri + "/" + newAuthor.Id), Mapper.Map<Author, AuthorDto>(newAuthor));
-            }
-            catch (Exception)
-            {
-                return Conflict();
-            }
         }
     }
 }

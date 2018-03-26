@@ -6,18 +6,22 @@ using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
 using ComicNow.DTOs;
+using ComicNow.DTOs.Comic;
 using ComicNow.Models;
+using ComicNow.Services;
 
 namespace ComicNow.Controllers.Api
 {
     [AllowCrossSiteJson]
     public class PublishersController : ApiController
     {
-        public ComicNowEntities Context;
+        public PublisherServices PublisherServices;
+        public ComicServices ComicServices;
 
         public PublishersController()
         {
-            Context = new ComicNowEntities();
+            PublisherServices = new PublisherServices();
+            ComicServices = new ComicServices();
         }
 
         //GET api/publishers
@@ -26,13 +30,14 @@ namespace ComicNow.Controllers.Api
         [Route("api/publishers")]
         public IHttpActionResult GetPublishers()
         {
-            var publisher = Context.Publishers;
+            var publisher = PublisherServices.GetAllPublishers();
+
             if (!publisher.Any())
             {
                 return NotFound();
             }
 
-            return Ok(publisher.ToList().Select(Mapper.Map<Publisher, PublisherDto>));
+            return Ok(publisher.Select(Mapper.Map<Publisher, PublisherDto>));
         }
 
         //GET api/publishers/{publisherId}
@@ -40,7 +45,8 @@ namespace ComicNow.Controllers.Api
         [HttpGet]
         public IHttpActionResult GetPublisher(int publisherId)
         {
-            var publisher = Context.Publishers.SingleOrDefault(p => p.Id == publisherId);
+            var publisher = PublisherServices.GetPublisherById(publisherId);
+
             if (publisher == null)
             {
                 return NotFound();
@@ -55,35 +61,33 @@ namespace ComicNow.Controllers.Api
         [Route("api/publishers/create/{publisherName}")]
         public IHttpActionResult CreatePublisher(string publisherName)
         {
-            try
-            {
-                var newPublisher = new Publisher()
-                {
-                    Name = publisherName
-                };
-                Context.Publishers.Add(newPublisher);
-                Context.SaveChanges();
-
-                return Created(new Uri(Request.RequestUri + "/" + newPublisher.Id), Mapper.Map<Publisher, PublisherDto>(newPublisher));
-            }
-            catch (Exception)
+            var newPublisher = PublisherServices.CreatePublisher(publisherName);
+            if (newPublisher == null)
             {
                 return Conflict();
             }
+            return Created(new Uri(Request.RequestUri + "/" + PublisherServices.GetPublisherId(newPublisher)), Mapper.Map<Publisher, PublisherDto>(newPublisher));
         }
 
         [HttpGet]
         [Route("api/publishers/{publisherId}/findComics")]
         public IHttpActionResult SearchComicByPublisher(int publisherId)
         {
-            var publisher = Context.Publishers.SingleOrDefault(p => p.Id == publisherId);
+            var publisher = PublisherServices.GetPublisherById(publisherId);
 
-            if (publisher == null || !publisher.Comics.Any())
+            if (publisher == null)
             {
                 return NotFound();
             }
 
-            return Ok(publisher.Comics.ToList().Select(Mapper.Map<Comic, ComicThumbnailDto>));
+            var comics = ComicServices.SearchComicByPublisher(publisher);
+
+            if (!comics.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(comics.Select(Mapper.Map<Comic, ComicThumbnailDto>));
         }
     }
 }

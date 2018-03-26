@@ -8,17 +8,18 @@ using System.Web.Http.Cors;
 using AutoMapper;
 using ComicNow.DTOs;
 using ComicNow.Models;
+using ComicNow.Services;
 
 namespace ComicNow.Controllers.Api
 {
     [AllowCrossSiteJson]
     public class RolesController : ApiController
     {
-        public ComicNowEntities Context;
+        public RoleServices RoleServices;
 
         public RolesController()
         {
-            Context = new ComicNowEntities();
+            RoleServices = new RoleServices();
         }
 
         //GET api/roles
@@ -26,7 +27,7 @@ namespace ComicNow.Controllers.Api
         [HttpGet]
         public IHttpActionResult GetRoles()
         {
-            var roles = Context.Roles;
+            var roles = RoleServices.GetAllRoles();
 
             if (!roles.Any())
             {

@@ -24,6 +24,8 @@ namespace ComicNow.DTOs.Comic
 
         public bool IsActive { get; set; }
 
+        public bool Status { get; set; }
+
         public string ThumbnailUrl { get; set; }
 
         public List<int> Authors { get; set; }

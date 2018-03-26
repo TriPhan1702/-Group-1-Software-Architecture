@@ -5,17 +5,20 @@ using System.Web.Http;
 using AutoMapper;
 using ComicNow.DTOs.Comment;
 using ComicNow.Models;
+using ComicNow.Services;
 
 namespace ComicNow.Controllers.Api
 {
     [AllowCrossSiteJson]
     public class CommentsController : ApiController
     {
-            public ComicNowEntities Context;
+            public CommentServices CommentServices;
+            public ComicServices ComicServices;
 
             public CommentsController()
             {
-                Context = new ComicNowEntities();
+                CommentServices = new CommentServices();
+                ComicServices = new ComicServices();
             }
 
             //GET /api/comments/{comicId}
@@ -24,20 +27,21 @@ namespace ComicNow.Controllers.Api
             [Route("api/comments/{comicId}")]
             public IHttpActionResult GetComments(int comicId)
             {
-                var comic = Context.Comics.SingleOrDefault(c => c.Id == comicId);
+                var comic = ComicServices.GetActiveComicById(comicId);
 
                 if (comic == null)
                 {
                     return NotFound();
                 }
 
-                if (!comic.Comments.Any())
+                var comments = CommentServices.GetAllActiveCommentOfComic(comic);
+
+                if (!comments.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(comic.Comments.Select(MapComment_CommentDto)
-                    .ToList());
+                return Ok(comments.Select(CommentServices.MapComment_CommentDto));
             }
 
             //POST /api/comments/
@@ -49,26 +53,15 @@ namespace ComicNow.Controllers.Api
                 {
                     return BadRequest();
                 }
-                var comment = new Comment
-                {
-                    AccountId = postCommentDto.AccountId,
-                    ComicId = postCommentDto.ComicId,
-                    Text = postCommentDto.Text,
-                    CreatedDate = DateTime.Now,
-                    IsActive = true,
-                };
-                comment.LastUpdate = comment.CreatedDate;
 
-                try
+                var comment = CommentServices.CreateComment(postCommentDto);
+
+                if (comment == null)
                 {
-                    Context.Comments.Add(comment);
-                    Context.SaveChanges();
-                    return Created(new Uri(Request.RequestUri + "/" + comment.Id), MapComment_CommentDto(comment));
+                    return NotFound();
                 }
-                catch (Exception)
-                {
-                    return Conflict();
-                }
+
+                return Created(new Uri(Request.RequestUri + "/" + CommentServices.GetCommentId(comment)), CommentServices.MapComment_CommentDto(comment));
             }
 
             //PUT /api/comments/changeCommentStatus/commentId
@@ -77,16 +70,21 @@ namespace ComicNow.Controllers.Api
             [Route("api/comments/changeCommentStatus/{commentId}")]
             public IHttpActionResult ChangeCommentStatus(int commentId)
             {
-                var comment = Context.Comments.SingleOrDefault(c => c.ComicId == commentId);
+                var comment = CommentServices.GetCommentById(commentId);
 
                 if (comment == null)
                 {
                     return NotFound();
                 }
 
-                comment.IsActive = !comment.IsActive;
-                Context.SaveChanges();
-                return Ok(MapComment_CommentDto(comment));
+                comment = CommentServices.ChangeCommentStatus(comment);
+
+                if (comment == null)
+                {
+                    return Conflict();
+                }
+
+                return Ok(CommentServices.MapComment_CommentDto(comment));
             }
 
             //PUT /api/comments/edit
@@ -100,41 +98,17 @@ namespace ComicNow.Controllers.Api
                     return BadRequest();
                 }
 
-                var comment = Context.Comments.SingleOrDefault(c => c.Id == commentDto.Id && c.IsActive);
+                var comment = CommentServices.GetActiveCommentById(commentDto.Id);
 
                 if (comment == null)
                 {
                     return NotFound();
                 }
 
-                try
-                {
-                    comment.Text = commentDto.Text;
-                    comment.LastUpdate = DateTime.Now;
-                    Context.SaveChanges();
-                    return Ok(MapComment_CommentDto(comment));
-            }
-                catch (Exception)
-                {
-                    return Conflict();
-                }
-                
+                comment = new Comment();
 
+                return Ok(CommentServices.MapComment_CommentDto(comment));
             }
-
-        private static CommentDto MapComment_CommentDto(Comment comment)
-        {
-            return new CommentDto()
-            {
-                Id = comment.Id,
-                ComicId = comment.ComicId,
-                AccountId = comment.AccountId,
-                AccountName = comment.Account.Username,
-                CreatedDate = comment.CreatedDate,
-                LastUpdate = comment.LastUpdate,
-                Text = comment.Text
-            };
-        }
         
     }
 }

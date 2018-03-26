@@ -5,33 +5,31 @@ using System.Web.Http;
 using AutoMapper;
 using ComicNow.DTOs.Account;
 using ComicNow.Models;
+using ComicNow.Services;
 
 namespace ComicNow.Controllers.Api
 {
     [AllowCrossSiteJson]
     public class AccountsController : ApiController
     {
-        public ComicNowEntities Context;
+        public AccountServices AccountServices;
 
         public AccountsController()
         {
-            Context = new ComicNowEntities();
+            AccountServices = new AccountServices();
         }
         
         //Return list of all active user account
         // GET /api/accounts
         public IHttpActionResult GetAccounts()
         {
-            IEnumerable<AccountDto> accounts = from acc in Context.Accounts
-                where acc.Role.Id != Constants.AdminRoleId
-                select new AccountDto(){Id = acc.Id, Username = acc.Username, RoleId = acc.RoleId};
-
-            if (accounts.Any())
+            var account = AccountServices.GetAllActiveAccount();
+            if (!account.Any())
             {
-                return Ok(accounts);
+                return NotFound();
             }
 
-            return NotFound();
+            return Ok(account.Select(Mapper.Map<Account, AccountDto>));
         }
 
         //Return a list of all accounts as admin
@@ -40,13 +38,13 @@ namespace ComicNow.Controllers.Api
         [Route("api/admin/accounts")]
         public IHttpActionResult GetAccountAdmin()
         {
-            var accounts = Context.Accounts;
+            var accounts = AccountServices.GetAllAccount();
             if (!accounts.Any())
             {
                 return NotFound();
             }
 
-            return Ok(accounts.ToList().Select(Mapper.Map<Account, AccountDto>));
+            return Ok(accounts.Select(Mapper.Map<Account, AccountDtoForAdmin>));
         }
 
         //Return a AccountDto
@@ -54,7 +52,8 @@ namespace ComicNow.Controllers.Api
         [HttpGet]
         public IHttpActionResult GetAccount(int id)
         {
-            var account = Context.Accounts.SingleOrDefault(a => a.Id == id && a.IsActive);
+            var account = AccountServices.GetAccountById(id);
+
             if (account == null)
             {
                 return NotFound();
@@ -73,27 +72,14 @@ namespace ComicNow.Controllers.Api
                 return BadRequest();
             }
 
-            var newAccount = new Account()
-            {
-                Username = account.Username,
-                Password = account.Password,
-                Email = account.Email,
-                RoleId = 2,
-                IsActive = true,
-            };
+            var newAccount = AccountServices.CreateAccount(account);
 
-            Context.Accounts.Add(newAccount);
-            try
-            {
-                Context.SaveChanges();
-                var newAccountDto = Mapper.Map<Account, AccountDto>(newAccount);
-                return Created(new Uri(Request.RequestUri + "/" + newAccount.Id), newAccountDto);
-            }
-            //Username Already Existed
-            catch (Exception)
+            if (newAccount == null)
             {
                 return Conflict();
             }
+            
+            return Created(new Uri(Request.RequestUri + "/" + AccountServices.GetAccountId(newAccount)), Mapper.Map<Account, AccountDto>(newAccount));
         }
         
         // POST /api/accounts/login
@@ -106,7 +92,7 @@ namespace ComicNow.Controllers.Api
                 return BadRequest();
             }
 
-            var account = Context.Accounts.SingleOrDefault(a => a.Username.Equals(loginAccountDto.Username) && a.Password.Equals(loginAccountDto.Password) && a.IsActive);
+            var account = AccountServices.Login(loginAccountDto);
 
             if (account == null)
             {
@@ -122,15 +108,19 @@ namespace ComicNow.Controllers.Api
         [Route("api/accounts/changeAccountStatus/{id}")]
         public IHttpActionResult ChangeAccountStatus(int id)
         {
-            var account = Context.Accounts.SingleOrDefault(a => a.Id == id);
+            var account = AccountServices.GetAccountById(id);
 
             if (account == null)
             {
                 return NotFound();
             }
 
-            account.IsActive = !account.IsActive;
-            Context.SaveChanges();
+            account = AccountServices.ChangeAccountStatus(account);
+
+            if (account == null)
+            {
+                return Conflict();
+            }
 
             return Ok(Mapper.Map<Account, AccountDto>(account));
         }

@@ -6,17 +6,22 @@ using ComicNow.DTOs;
 using ComicNow.DTOs.Comic;
 using ComicNow.DTOs.Rating;
 using ComicNow.Models;
+using ComicNow.Services;
 
 namespace ComicNow.Controllers.Api
 {
     [AllowCrossSiteJson]
     public class ComicsController : ApiController
     {
-        public ComicNowEntities Context;
+        public ComicServices ComicServices;
+
+        public AccountServices AccountServices;
 
         public ComicsController()
         {
-            Context = new ComicNowEntities();
+            ComicServices = new ComicServices();
+
+            AccountServices = new AccountServices();
         }
 
         //GET /api/comics
@@ -24,14 +29,11 @@ namespace ComicNow.Controllers.Api
         [HttpGet]
         public IHttpActionResult GetThumbnails()
         {
-            var comics = from c in Context.Comics
-                where c.IsActive
-                orderby c.LastUpdate
-                select c;
+            var comics = ComicServices.GetAllActiveComic();
 
             if (!comics.Any()) return NotFound();
 
-            return Ok(comics.ToList().Select(Mapper.Map<Comic, ComicThumbnailDto>));
+            return Ok(comics.Select(Mapper.Map<Comic, ComicThumbnailDto>));
         }
 
         //GET /api/admin/comics
@@ -40,11 +42,11 @@ namespace ComicNow.Controllers.Api
         [Route("api/admin/comics")]
         public IHttpActionResult GetComics()
         {
-            var comics = Context.Comics;
+            var comics = ComicServices.GetAllComic();
 
             if (!comics.Any()) return NotFound();
 
-            return Ok(comics.ToList().Select(Mapper.Map<Comic, LightWeightComicDto>));
+            return Ok(comics.Select(Mapper.Map<Comic, LightWeightComicDto>));
         }
 
         //Get /api/comics/id
@@ -52,7 +54,7 @@ namespace ComicNow.Controllers.Api
         [HttpGet]
         public IHttpActionResult GetComic(int id)
         {
-            var comic = Context.Comics.SingleOrDefault(c => c.IsActive && c.Id == id);
+            var comic = ComicServices.GetActiveComicById(id);
 
             if (comic == null) return NotFound();
 
@@ -65,7 +67,7 @@ namespace ComicNow.Controllers.Api
         [Route("api/admin/comics/{id}")]
         public IHttpActionResult GetComicAsAdmin(int id)
         {
-            var comic = Context.Comics.SingleOrDefault(c => c.Id == id);
+            var comic = ComicServices.GetComicById(id);
 
             if (comic == null) return NotFound();
 
@@ -83,58 +85,14 @@ namespace ComicNow.Controllers.Api
                 return BadRequest();
             }
             
+            var newComic = ComicServices.CreateComic(uploadComicDto);
 
-            var newComic = new Comic
-            {
-                Name = uploadComicDto.Name,
-                OtherName = uploadComicDto.OtherName,
-                Description = uploadComicDto.Description,
-                ThumbnailUrl = uploadComicDto.ThumbnailUrl,
-                PublisherId = uploadComicDto.PublisherId,
-                ChapterNumber = 0,
-                CreatedDate = DateTime.Now,
-                LastUpdate = DateTime.Now,
-                IsActive = true,
-                Rating = 0,
-                Views = 0,
-                TimeRated = 0,
-                Status = false
-            };
-
-            //If the admin didn't put any author in the form, this comic will not be associated with any author 
-            if (uploadComicDto.Authors != null)
-                try
-                {
-                    foreach (var authorId in uploadComicDto.Authors)
-                        newComic.Authors.Add(Context.Authors.Single(a => a.Id == authorId));
-                }
-                catch (Exception)
-                {
-                    return NotFound();
-                }
-
-            //If admin didn't put any tag in the form, this comic will not be associated with any tag 
-            if (uploadComicDto.Tags != null)
-                try
-                {
-                    foreach (var tagId in uploadComicDto.Tags)
-                        newComic.Tags.Add(Context.Tags.Single(t => t.Id == tagId));
-                }
-                catch (Exception)
-                {
-                    return NotFound();
-                }
-
-            try
-            {
-                Context.Comics.Add(newComic);
-                Context.SaveChanges();
-                return Created(new Uri(Request.RequestUri + "/" + newComic.Id), Mapper.Map<Comic, ComicDto>(newComic));
-            }
-            catch (Exception)
+            if (newComic == null)
             {
                 return Conflict();
             }
+
+            return Created(new Uri(Request.RequestUri + "/" + ComicServices.GetComicId(newComic)), Mapper.Map<Comic, ComicDto>(newComic));
         }
 
         //PUT api/comics/edit
@@ -143,53 +101,18 @@ namespace ComicNow.Controllers.Api
         public IHttpActionResult EditComic(EditComicDto editComicDto)
         {
             //Check if the comic exist
-            var comic = Context.Comics.SingleOrDefault(c => c.Id == editComicDto.Id);
+            var comic = ComicServices.GetComicById(editComicDto.Id);
 
             if (comic == null) return NotFound();
 
-            //replace all the old information
-            comic.Name = editComicDto.Name;
-            comic.OtherName = editComicDto.OtherName;
-            comic.Description = editComicDto.Description;
-            comic.PublisherId = editComicDto.PublisherId;
-            comic.IsActive = editComicDto.IsActive;
-            comic.ThumbnailUrl = editComicDto.ThumbnailUrl;
+            comic = ComicServices.EditComic(comic, editComicDto);
 
-            try
-            {
-                //clear the comic's author list
-                comic.Authors.Clear();
-
-                //clear the comic's tag list
-                comic.Tags.Clear();
-
-                //Add all authors again
-                foreach (var author in editComicDto.Authors)
-                {
-                    //search if the author exist
-                    var authorFromDb = Context.Authors.SingleOrDefault(a => a.Id == author);
-                    if (authorFromDb == null) return NotFound();
-
-                    comic.Authors.Add(authorFromDb);
-                }
-
-                //Add all tags again
-                foreach (var tag in editComicDto.Tags)
-                {
-                    //check if the tag exist
-                    var tagFromDb = Context.Tags.SingleOrDefault(a => a.Id == tag);
-                    if (tagFromDb == null) return NotFound();
-
-                    comic.Tags.Add(tagFromDb);
-                }
-
-                Context.SaveChanges();
-                return Ok(Mapper.Map<Comic, ComicDto>(comic));
-            }
-            catch (Exception)
+            if (comic == null)
             {
                 return Conflict();
             }
+
+            return Ok(Mapper.Map<Comic, ComicDto>(comic));
         }
 
         //GET api/comics/search/{searchValue}
@@ -199,17 +122,11 @@ namespace ComicNow.Controllers.Api
         public IHttpActionResult SearchComic(string searchValue)
         {
             //Go to all of the table to search for the comics
-            var comic = from c in Context.Comics
-                where c.Name.Contains(searchValue)
-                      || c.Authors.Any(a => a.Name.Contains(searchValue))
-                      || c.Publisher.Name.Contains(searchValue)
-                      || c.Tags.Any(t => t.Name.Contains(searchValue)
-                      || c.Authors.Any(a => a.Name.Contains(searchValue)))
-                select c;
+            var comic = ComicServices.SearchComic(searchValue);
 
             if (!comic.Any()) return NotFound();
 
-            return Ok(comic.ToList().Select(Mapper.Map<Comic, ComicThumbnailDto>));
+            return Ok(comic.Select(Mapper.Map<Comic, ComicThumbnailDto>));
         }
 
         //POST api/comics/rate
@@ -218,49 +135,20 @@ namespace ComicNow.Controllers.Api
         [Route("api/comics/rate")]
         public IHttpActionResult RateComic(UploadRatingDto uploadRatingDto)
         {
-            var comic = Context.Comics.SingleOrDefault(c => c.IsActive && c.Id == uploadRatingDto.ComicId);
+            var comic = ComicServices.GetActiveComicById(uploadRatingDto.ComicId);
             if (comic == null) return NotFound();
 
-            var account = Context.Accounts.SingleOrDefault(a => a.IsActive && a.Id == uploadRatingDto.AccountId);
+            var account = AccountServices.GetActiveAccountById(uploadRatingDto.AccountId);
             if (account == null) return NotFound();
 
-            var rating = account.RatingLists.SingleOrDefault(r =>
-                r.AccountId == uploadRatingDto.AccountId && r.ComicId == uploadRatingDto.ComicId);
+            var rating = ComicServices.RateComic(comic, account, uploadRatingDto.Rating);
 
-            //For when account already rated this comic, reset rating then add again below
-            if (rating != null)
-            {
-                //For when there was only one person that rated this, simply return the point to zero
-                if (comic.TimeRated == 1)
-                {
-                    comic.Rating = 0;
-                    comic.TimeRated = 0;
-                }
-                else
-                {
-                    comic.Rating = ((comic.Rating * comic.TimeRated - rating.Rating) / --comic.TimeRated);
-                }
-            }
-
-            try
-            {
-                var newRating = new RatingList()
-                {
-                    ComicId = comic.Id,
-                    AccountId = account.Id,
-                    Rating = uploadRatingDto.Rating
-                };
-
-                Context.RatingLists.Add(newRating);
-
-                comic.Rating = (comic.Rating * comic.TimeRated + newRating.Rating) / ++comic.TimeRated;
-                Context.SaveChanges();
-                return Ok(Mapper.Map<RatingList, RatingDto>(newRating));
-            }
-            catch (Exception)
+            if (rating == null)
             {
                 return Conflict();
             }
+
+            return Ok(Mapper.Map<RatingList, RatingDto>(rating));
         }
 
         //POST api/comics/favorite
@@ -268,22 +156,19 @@ namespace ComicNow.Controllers.Api
         [Route("api/comics/favorite")]
         public IHttpActionResult AddToFavorite(FavoriteDto favoriteDto)
         {
-            var account = Context.Accounts.SingleOrDefault(a => a.IsActive && a.Id == favoriteDto.AccountId);
+            var account = AccountServices.GetActiveAccountById(favoriteDto.AccountId);
             if (account == null) return NotFound();
 
-            var comic = Context.Comics.SingleOrDefault(c => c.IsActive && c.Id == favoriteDto.ComicId);
+            var comic = ComicServices.GetActiveComicById(favoriteDto.ComicId);
             if (comic == null) return NotFound();
 
-            try
-            {
-                account.Comics.Add(comic);
-                Context.SaveChanges();
-                return Ok(favoriteDto);
-            }
-            catch (Exception)
+            if (!ComicServices.AddToFavorite(account, comic))
             {
                 return Conflict();
             }
+
+            return Ok(favoriteDto);
+
         }
 
         //GET api/comics/viewFavorite/{accountId}
@@ -291,16 +176,17 @@ namespace ComicNow.Controllers.Api
         [Route("api/comics/viewFavorite/{accountId}")]
         public IHttpActionResult ViewFavoriteList(int accountId)
         {
-            var account = Context.Accounts.SingleOrDefault(a => a.IsActive && a.Id == accountId);
+            var account = AccountServices.GetActiveAccountById(accountId);
             if (account == null) return NotFound();
 
-            var favorites = account.Comics;
+            var favorites = AccountServices.ViewFavoriteList(account);
+
             if (!favorites.Any())
             {
                 return NotFound();
             }
 
-            return Ok(favorites.ToList().Select(Mapper.Map<Comic, LightWeightComicDto>));
+            return Ok(favorites.Select(Mapper.Map<Comic, LightWeightComicDto>));
 
         }
 
@@ -309,22 +195,17 @@ namespace ComicNow.Controllers.Api
         [Route("api/comics/favorite/delete")]
         public IHttpActionResult DeleteFavorite(FavoriteDto favoriteDto)
         {
-            var account = Context.Accounts.SingleOrDefault(a => a.IsActive && a.Id == favoriteDto.AccountId);
+            var account = AccountServices.GetActiveAccountById(favoriteDto.AccountId);
             if (account == null) return NotFound();
 
-            var comic = Context.Comics.SingleOrDefault(c => c.IsActive && c.Id == favoriteDto.ComicId);
+            var comic = ComicServices.GetActiveComicById(favoriteDto.ComicId);
             if (comic == null) return NotFound();
 
-            try
-            {
-                account.Comics.Remove(comic);
-                Context.SaveChanges();
-                return Ok();
-            }
-            catch (Exception)
+            if (!AccountServices.DeleteFavorite(account, comic))
             {
                 return Conflict();
             }
+            return Ok();
         }
 
         //PUT /api/comics/changeComicStatus/comicId
@@ -333,14 +214,18 @@ namespace ComicNow.Controllers.Api
         [Route("api/comics/changeComicStatus/{comicId}")]
         public IHttpActionResult ChangeComicStatus(int comicId)
         {
-            var comic = Context.Comics.SingleOrDefault(c => c.Id == comicId);
+            var comic = ComicServices.GetComicById(comicId);
 
             if (comic == null) return NotFound();
 
-            comic.IsActive = !comic.IsActive;
-            Context.SaveChanges();
+            comic = ComicServices.ChangeComicStatus(comic);
 
-            return Ok(Ok(Mapper.Map<Comic, ComicDto>(comic)));
+            if (comic == null)
+            {
+                return Conflict();
+            }
+
+            return Ok(Mapper.Map<Comic, LightWeightComicDto>(comic));
         }
     }
 }

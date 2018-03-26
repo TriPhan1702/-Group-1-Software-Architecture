@@ -18,6 +18,8 @@ namespace ComicNow
 
             Mapper.CreateMap<Account, AccountDto>().ReverseMap();
 
+            Mapper.CreateMap<Account, AccountDtoForAdmin>().ReverseMap();
+
             Mapper.CreateMap<Chapter, ChapterDto>().ReverseMap();
 
             Mapper.CreateMap<Publisher, PublisherDto>().ReverseMap();
@@ -44,6 +46,9 @@ namespace ComicNow
 
             Mapper.CreateMap<RatingList, RatingDto>();
 
+
         }
+
+        
     }
 }
